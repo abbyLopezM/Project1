@@ -14,19 +14,45 @@
 
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <link rel="stylesheet" href="./style.css">
 </head>
 
+<!-- We will use display: none; to hide sections. on js: Element.style.display: inline (?) to display next section. -->
 <body>
     <h1 class="title">Where Do You Want to Go?</h1>
+    <nav>
+        <ul>
+            <li><a href="">Home</a></li>
+            <li><a href="">Contact</a></li>
+            <li><a href="">About</a></li>
+          </ul>
+    </nav> 
     <div class="introcontainer">
         <!-- introduction page here -->
-
+        <h4>
+            Filler text about figuring out where to travel and stuff. Press "START" to get started!
+        </h4>
+        <!--press start to show questions -->
+        <input type="button" value="START"> 
     </div>
-    <div class="questions">
+
+    <div class="prompts">
         <!-- questions go here - add from JS -->
+        <!-- filler stuff is so I can stylize it before JS is added - use "response" class for user input/answers, or change CSS class later -->
+        <section class="question">
+            <h5>Filler question?</h5>
+        </section>
+        <section class="response">
+            <h6>Responses (on rating scale?)</h6>
+        </section>
     </div>
     <div class="resultspage">
         <!-- results go here -->
+        <h2>Here are your results!</h2>
+
+        <!-- Add photos from API if it's included? -->
+        <h5 class="resultsdisplay"> (results go here) </h5>
     </div>
 
     <!--JavaScript at end of body for optimized loading-->
