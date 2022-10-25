@@ -24,6 +24,7 @@
     <nav>
         <ul>
             <li><a href="">Home</a></li>
+            <li><a href="">Last Results</a></li>
             <li><a href="">Contact</a></li>
             <li><a href="">About</a></li>
           </ul>
@@ -34,12 +35,17 @@
             Filler text about figuring out where to travel and stuff. Press "START" to get started!
         </h4>
         <!--press start to show questions -->
-        <input type="button" value="START"> 
+        <input type="button" value="START" id="startBtn"> 
+    </div>
+
+    <div class="lastresults">
+        
     </div>
 
     <div class="prompts">
-        <!-- questions go here - add from JS -->
+        <!-- questions go here - add by create element in JS -->
         <!-- filler stuff is so I can stylize it before JS is added - use "response" class for user input/answers, or change CSS class later -->
+        <!-- delete fillers after JS -->
         <section class="question">
             <h5>Filler question?</h5>
         </section>
@@ -54,6 +60,8 @@
         <!-- Add photos from API if it's included? -->
         <h5 class="resultsdisplay"> (results go here) </h5>
     </div>
+
+    <script src="./script.js"></script>
 
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="js/materialize.min.js"></script>
