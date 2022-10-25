@@ -1,0 +1,101 @@
+:root {
+    --darkblue: #3B4462;
+    --green: #7BAC9E;
+    --blue: #3175ff;
+
+    /* change tan color */
+    --results: #fb9d67;
+}
+
+.title {
+    text-align: center;
+    padding: 40px;
+    margin: -10px -10px 0px -10px;
+    box-shadow: 0px 6px 10px 1px rgba(0,0,0,0.25);
+}
+.title::before {
+    content: "🧭";
+}
+.title::after {
+    content: "🧭";
+}
+
+nav {
+    position: sticky;
+    list-style-type: none;
+    background-color: var(--green);
+    box-shadow: 0px 6px 10px 1px rgba(0,0,0,0.25);
+}
+
+.introcontainer {
+    /* background-color: var(--darkblue); */
+    text-align: center;
+    padding: 50px;
+    margin: 50px 80px 50px 80px;
+    border-radius: 25px;
+    border: 1px solid;
+    border-color: var(--darkblue);
+    box-shadow: 0px 6px 10px 1px rgba(0,0,0,0.25);
+}
+.introcontainer > h4 {
+    padding: 60px;
+}
+
+.introcontainer > input {
+    background-color: var(--blue);
+    border: 0px;
+    padding: 30px 50px 30px 50px;
+    border-radius: 25px;
+    border: 1px var(--darkblue) solid;
+    font-weight: 500;
+    font-size: 24px;
+    color: white;
+}
+.introcontainer > input:hover {
+    /* background-color: lightgreen; */
+    box-shadow: inset 0px 6px 10px 1px rgba(0,0,0,0.25);
+}
+
+.lastresults {
+    
+}
+
+.prompts {
+    padding: 50px;
+    margin-bottom: 200px;
+    margin-top: -50px;
+    display: none;
+}
+
+.prompts > .question {
+    margin: 20px -60px 40px -50px;
+    border-bottom: 1px var(--darkblue) solid;
+    padding: 10px 0px 20px 40px;
+    box-shadow: 0px 6px 4px 1px rgba(0,0,0,0.09);
+    -webkit-box-shadow: -1px 6px 4px 1px rgba(0,0,0,0.09);
+    -moz-box-shadow: -1px 6px 4px 1px rgba(0,0,0,0.09);
+}
+.prompts > .response {
+
+}
+
+.resultspage {
+    text-align: center;
+    padding: 50px;
+    margin-bottom: 200px;
+    display: none;
+}
+.resultspage > h2 {
+    background-color: var(--results);
+    border-bottom: 1px var(--darkblue) solid;
+    box-shadow: 0px 6px 4px 1px rgba(0,0,0,0.09);
+    -webkit-box-shadow: -1px 6px 4px 1px rgba(0,0,0,0.09);
+    -moz-box-shadow: -1px 6px 4px 1px rgba(0,0,0,0.09);
+    padding: 50px;
+    margin: 20px -60px 40px -50px;
+
+}
+
+.resultspage > .resultsdisplay {
+
+}
