@@ -63,6 +63,7 @@ nav {
 .prompts {
     padding: 50px;
     margin-bottom: 200px;
+    margin-top: -50px;
     display: none;
 }
 
