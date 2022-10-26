@@ -7,7 +7,14 @@ function showQuestions() {
     prompts.style.display = "block";
     intro.style.display = "none";
 }
-startBtn.addEventListener('click', showQuestions);
+questionP.textContent = "This is where the questions will be?"
+aText.textContent = "Test A text";
+bText.textContent = "Test B text";
+cText.textContent = "Test C text";
+dText.textContent = "Test D text";
+startBtn.addEventListener('click', () => {
+    createQuiz();
+});
 
 // put into function that will show results page and hide questions
 //resultElement.style.display = "block";

@@ -20,7 +20,8 @@
 
 <!-- We will use display: none; to hide sections. on js: Element.style.display: inline (?) to display next section. -->
 <body>
-    <h1 class="title">Where Do You Want to Go?</h1>
+    <div id="main-container">
+        <h1 class="title">Where Do You Want to Go?</h1>
     <nav>
         <ul>
             <!-- not yet linked to anything -->
@@ -31,7 +32,7 @@
     </nav> 
     <div class="introcontainer" id="intro-page">
         <!-- introduction page here -->
-        <h4>
+        <h4 id="intro-text">
             Filler text about figuring out where to travel and stuff. Press "START" to get started!
         </h4>
         <!--press start to show questions -->
@@ -58,10 +59,16 @@
         <!-- Add photos from API if it's included? -->
         <h5 class="resultsdisplay" id="displayed-results"> (results go here) </h5>
     </div>
+    </div>
+    <section id="scriptCont">
+        <script type="text/javascript" src="js/materialize.min.js"></script>
+        <script src="./assets/js/var.js"></script>
+        <script src="./assets/js/dynElm.js"></script>
+        <script src="./assets/js/function.js"></script>
+        <script src="./assets/js/script.js"></script>
+    </section>
+   
 
-    <script src="./assets/js/script.js"></script>
-
-    <!--JavaScript at end of body for optimized loading-->
-    <script type="text/javascript" src="js/materialize.min.js"></script>
+    
 </body>
 </html>
