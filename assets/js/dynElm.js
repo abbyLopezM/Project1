@@ -61,3 +61,15 @@ cListItem.append(answerC);
 cListItem.append(cText);
 dListItem.append(answerD);
 dListItem.append(dText);
+// next button container
+const nextCont = document.createElement('section');
+nextCont.id = 'nextCont';
+nextCont.classList = 'next-container';
+// next button
+const nextBtn = document.createElement('input');
+nextBtn.type = 'button';
+nextBtn.value = 'Next';
+nextBtn.classList = 'next-btn';
+nextBtn.id = 'nextBtn';
+// append nextBtn to nextCont
+nextCont.append(nextBtn);
