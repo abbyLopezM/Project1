@@ -1,49 +1,32 @@
 :root {
-    --darkblue: #090d1a;
-    --nav: #7118de;
+    --darkblue: #3B4462;
+    --green: #7BAC9E;
     --blue: #3175ff;
-    --border: white;
 
     /* change tan color */
     --results: #fb9d67;
 }
-
 body {
-    background: linear-gradient(0deg, rgba(31,44,88,1) 0%, rgba(0,0,0,1) 88%);
-    color: white;
+    background-color: var(--darkblue);
 }
 .title {
     text-align: center;
     padding: 40px;
-    margin: -10px -10px 0px -50px;
+    margin: -10px -10px 0px -10px;
     box-shadow: 0px 6px 10px 1px rgba(0,0,0,0.25);
-    text-shadow: 0px 0px 6px rgba(252, 252, 252, 1);
-/* make text shadow bigger */
 }
-
-.pic {
-    width: 300px;
-    height: 300px;
-    object-fit: contain;
-    margin-top: -70px;
-}
-
-/* .title::before {
-    content: "🎵";
+.title::before {
+    content: "🧭";
 }
 .title::after {
-    content: "🎵"; */
-/* } */
+    content: "🧭";
+}
 
 nav {
-    background-color: var(--nav);
-    box-shadow: 1px 1px 38px -1px rgba(255,255,255,0.37);
-    -webkit-box-shadow: 1px 1px 38px -1px rgba(255,255,255,0.37);
-    -moz-box-shadow: 1px 1px 38px -1px rgba(255,255,255,0.37);
-}
-nav > ul  {
-    float: left;
-    margin-left: -250px;
+    position: sticky;
+    list-style-type: none;
+    background-color: var(--green);
+    box-shadow: 0px 6px 10px 1px rgba(0,0,0,0.25);
 }
 
 .introcontainer {
@@ -53,27 +36,24 @@ nav > ul  {
     margin: 50px 80px 50px 80px;
     border-radius: 25px;
     border: 1px solid;
-    border-color: var(--border);
+    border-color: var(--darkblue);
     box-shadow: 0px 6px 10px 1px rgba(0,0,0,0.25);
-    /* text-shadow: 1px 0px 6px rgba(206,206,206,0.84); */
 }
 .introcontainer > h4 {
     padding: 60px;
 }
 
-.introcontainer > button {
+.introcontainer > input {
     background-color: var(--blue);
     border: 0px;
     padding: 30px 50px 30px 50px;
     border-radius: 25px;
+    border: 1px var(--darkblue) solid;
     font-weight: 500;
     font-size: 24px;
     color: white;
-    box-shadow: 1px 1px 38px -1px rgba(255,255,255,0.37);
-    -webkit-box-shadow: 1px 1px 38px -1px rgba(255,255,255,0.37);
-    -moz-box-shadow: 1px 1px 38px -1px rgba(255,255,255,0.37);
 }
-.introcontainer > button:hover {
+.introcontainer > input:hover {
     /* background-color: lightgreen; */
     box-shadow: inset 0px 6px 10px 1px rgba(0,0,0,0.25);
 }
@@ -90,12 +70,12 @@ nav > ul  {
 }
 
 .prompts > .question {
-    margin: 50px -60px 40px -50px;
-    border-bottom: 1px var(--border) solid;
+    margin: 20px -60px 40px -50px;
+    border-bottom: 1px var(--darkblue) solid;
     padding: 10px 0px 20px 40px;
-    box-shadow: 0px 15px 17px -6px rgba(255,255,255,0.25);
--webkit-box-shadow: 0px 15px 17px -6px rgba(255,255,255,0.25);
--moz-box-shadow: 0px 15px 17px -6px rgba(255,255,255,0.25);
+    box-shadow: 0px 6px 4px 1px rgba(0,0,0,0.09);
+    -webkit-box-shadow: -1px 6px 4px 1px rgba(0,0,0,0.09);
+    -moz-box-shadow: -1px 6px 4px 1px rgba(0,0,0,0.09);
 }
 .prompts > .response {
 
@@ -109,7 +89,7 @@ nav > ul  {
 }
 .resultspage > h2 {
     background-color: var(--results);
-    border-bottom: 1px var(--border) solid;
+    border-bottom: 1px var(--darkblue) solid;
     box-shadow: 0px 6px 4px 1px rgba(0,0,0,0.09);
     -webkit-box-shadow: -1px 6px 4px 1px rgba(0,0,0,0.09);
     -moz-box-shadow: -1px 6px 4px 1px rgba(0,0,0,0.09);
@@ -121,5 +101,3 @@ nav > ul  {
 .resultspage > .resultsdisplay {
 
 }
-
-/* mobile compatibility */
