@@ -36,29 +36,23 @@
     <div class="introcontainer" id="intro-page">
         <!-- introduction page here -->
         <h4>
-            Answer some questions about some qualifications you want the next song to have. Press start to begin.
+            Answer some questions and expand your music taste. Press start to begin.
         </h4>
         <!--press start to show questions -->
         <button id="startBtn">START</button>
     </div>
-    <!-- previous results on a different page -->
-    <div class="lastresults" id="prev-results"></div>
 
-    <div class="prompts" id="question-container">
-        <!-- questions go here - add by create element in JS -->
-        <!-- filler stuff is so I can stylize it before JS is added - use "response" class for user input/answers, or change CSS class later -->
-        <!-- delete fillers after JS -->
-        <section class="question" id="current-question">
-            <h5>Filler question?</h5>
-        </section>
-        <section class="response" id="current-responses">
-            <h6>Responses (on rating scale?)</h6>
-        </section>
+
+    <div class="row prompts" id="question-container">
+
     </div>
+    <button id="submit">Submit</button>
+    <!-- previous results on a different page -->
+    <div class="lastresults" id="prev-results"></div>    
     <div class="resultspage" id="results-container">
         <!-- results go here -->
         <h2>Here are your results!</h2>
-
+        <button>Back</button>
         <!-- Add photos from API if it's included? -->
         <h5 class="resultsdisplay" id="displayed-results"> (results go here) </h5>
     </div>
@@ -66,6 +60,6 @@
     <script src="./assets/js/script.js"></script>
 
     <!--JavaScript at end of body for optimized loading-->
-    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="./materialize/js/materialize.min.js"></script>
 </body>
 </html>
