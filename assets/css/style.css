@@ -121,5 +121,9 @@ nav > ul  {
 .resultspage > .resultsdisplay {
 
 }
+.column{
+    width: 20%;
+    float: left;
+}
 
 /* mobile compatibility */
