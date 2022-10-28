@@ -1,3 +1,6 @@
+/* check framework for mobile compatibility */
+/* text shadow in intro */
+
 :root {
     --darkblue: #090d1a;
     --nav: #7118de;
@@ -55,7 +58,6 @@ nav > ul  {
     border: 1px solid;
     border-color: var(--border);
     box-shadow: 0px 6px 10px 1px rgba(0,0,0,0.25);
-    /* text-shadow: 1px 0px 6px rgba(206,206,206,0.84); */
 }
 .introcontainer > h4 {
     padding: 60px;
@@ -123,3 +125,22 @@ nav > ul  {
 }
 
 /* mobile compatibility */
+@media screen and (max-width: 837px) {
+.pic {
+    display: none;
+}}
+
+@media screen and (max-width: 600px) {
+.pic {
+    display: none;
+}
+nav > ul {
+    margin: 0;
+    float: right;
+}
+.introcontainer > h4 {
+    padding: 5px;
+    font-size: 24px;
+}
+
+}
