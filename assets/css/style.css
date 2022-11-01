@@ -43,7 +43,7 @@ nav {
 }
 nav > ul  {
     float: left;
-    /* margin-left: -250px; moves elements out of the window */
+    margin-left: -250px;
 }
 
 .introcontainer {
@@ -161,7 +161,6 @@ nav > ul  {
 }
 nav > ul {
     margin: 0;
-    float: right;
 }
 .introcontainer > h4 {
     padding: 5px;

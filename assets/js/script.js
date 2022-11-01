@@ -1,30 +1,30 @@
 var questions = [
     {
         //use keyWordQuery
-    question: 'Select all genres you currently listen to.',
+    question: 'Select all genres you want to search.',
     options: ['Rock','Jazz','Electro','Techno','Metal','Country', 'Pop', 'Blues'],
     type: 'queryadd',
     },
     {
         //use keyWordQuery
         question: 'Do you prefer instrumental or vocals?',
-        options: ['Instrumental','Vocals'],
+        options: ['Instrumental','Vocals','No Preference'],
         type: 'queryadd',
     },
     {
         //use license
-        question: 'Do you prefer a channel recommended by youtube or Creative Common?',
-        options: ['Youtube','Creative Common'],
+        question: 'Do you prefer a channel licensed by youtube or Creative Common?',
+        options: ['Youtube','Creative Common','No Preference '],
         type: 'license',
     },
     { //use videoDuration
         question: 'How long of a video would you like to watch?',
-        options: ['< 4 Min','> 4 Min','> 20 Min'],
-        type: 'length',
+        options: ['Less than 4min','4min - 20min','Greater than 20 Min', 'Any'],
+        type: 'duration',
     },
     {// use removeQuery
-        question: 'What do you not want to watch?',
-        options: ['covers','blank','blank'],
+        question: 'Would you like to exclude anything else?',
+        options: ['covers','blank','blank2'],
         type: 'queryremove',
     }
 ]
@@ -33,17 +33,16 @@ var prompts = document.querySelector("#question-container");
 var intro = document.querySelector("#intro-page");
 var questionsEL= document.querySelector('#question-container');
 
-
 var currentQuestionIndex = 0;
 // begins to show the questions
 //query words to add
-const keyWordQuery=[];
+let keyWordQuery=[];
 //query words to remove
-const removeQuery = [];
+let removeQuery = [];
 //youtube or creativeCommon
-var license;
+let licenseQuery = [];
 //how long of a video do you want to watch?
-var videoDuration;
+let durationQuery = [];
 
 function showQuestions() {
     // use "block" instead of "inline"! Inline will mess up margin structure. 
@@ -77,7 +76,7 @@ function showQuestions() {
                 var radio = document.createElement('input');
                 radio.type = "radio";
                 radio.class = 'radio';
-                radio.name = currentQuestion.options[i];
+                radio.name = currentQuestion.type;
                 radio.value = currentQuestion.options[i];
                 radio.id = currentQuestion.options[i];
                 var span = document.createElement('span');
@@ -121,8 +120,6 @@ function showQuestions() {
         }
     }
 }
-
-
 startBtn.addEventListener('click', () => {
     showQuestions();
 });
@@ -167,37 +164,39 @@ lastResultsBtn.addEventListener('click', () => {
 const questionCont = document.getElementById('question-container');
 const subBtn = document.getElementById('submit');
 
-
-// questionCont.children[i].children[j].children[0].checked
-
 subBtn.addEventListener('click', () => {
-    var column=5;
-    var options1=8;
-    for( var i=0; i<column;i++){
-        for (var j=0; j<options1;i++) {
-            if (column==0 || column==4) {
-                if (questionCont.children[i].children[j].children[0].checked == true){
-                    console.log(questionCont.children[i].children[j].children[0].id);
-                    // console.log(questionCont.children[1]);
-                    // console.log(questionCont.children[1].children[0]);
-                    // console.log(questionCont.children[1].children[0].children[0].id);
-
-                }else{
-                    console.log('nope');
-                }
-            }else{
-                console.log('no checkboxes')
-                return;
+    keyWordQuery=[];
+    for (let k = 0; k < questions.length - 3; k++){
+        for (let i = 0; i < questions[k].options.length; i++){
+            if (document.getElementById(questions[k].options[i]).checked == true){
+                console.log(questions[k].options[i]);
+                keyWordQuery.push(questions[k].options[i]);
+                console.log(keyWordQuery);
             }
-
-
-            
         }
-
+    }
+    licenseQuery = [];
+    for (let i = 0; i < questions[2].options.length; i++){
+        if (document.getElementById(questions[2].options[i]).checked == true){
+            console.log(questions[2].options[i]);
+            licenseQuery.push(questions[2].options[i]);
+            console.log(licenseQuery);
+        }
+    }
+    durationQuery = [];
+    for (let i = 0; i < questions[3].options.length; i++){
+        if (document.getElementById(questions[3].options[i]).checked == true){
+            console.log(questions[3].options[i]);
+            durationQuery.push(questions[3].options[i]);
+            console.log(durationQuery);
+        }
+    }
+    removeQuery = [];
+    for (let i = 0; i < questions[4].options.length; i++){
+        if (document.getElementById(questions[4].options[i]).checked == true){
+            console.log(questions[4].options[i]);
+            removeQuery.push(questions[4].options[i]);
+            console.log(removeQuery);
+        }
     }
 })
-
-
-// if(checkbox.checked == true){
-
-// }
