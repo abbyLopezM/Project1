@@ -39,7 +39,7 @@ var currentQuestionIndex = 0;
 //query words to add
 const keyWordQuery=[];
 //query words to remove
-var removeQuery;
+const removeQuery = [];
 //youtube or creativeCommon
 var license;
 //how long of a video do you want to watch?
@@ -50,6 +50,8 @@ function showQuestions() {
     prompts.style.display = "block";
     intro.style.display = "none";
     questionsEL.innerHTML = '';
+    subBtn.style.display = 'block';
+
 
     if(currentQuestionIndex>= questions.length){
         var h1Element = document.createElement('h1');
@@ -60,13 +62,12 @@ function showQuestions() {
     
    for (let index = 0; index < questions.length; index++) {
  
-        var currentQuestion = questions[currentQuestionIndex]
+        var currentQuestion = questions[currentQuestionIndex];
         var divQ = document.createElement('div');
         divQ.className='column';
         divQ.textContent = currentQuestion.question;
         console.log(divQ);
         questionsEL.append(divQ);
-
         if(index>0 && index<4){
             for(var i = 0; i<currentQuestion.options.length; i++){
 
@@ -118,26 +119,85 @@ function showQuestions() {
             console.log('outofloop');
             currentQuestionIndex++;
         }
-
     }
 }
 
-// function checkAnswer(event){
-//     console.log(questions[currentQuestionIndex].options)
-//     console.log('in check anwer')
-//     if(questions[currentQuestionIndex].options == event.target.innerText){
-//         keyWordQuery.push(questions[currentQuestionIndex].options);
-//         console.log(keyWordQuery);
-//     }
-//     else{
-//         console.log('wrong');
-//     }
-//     currentQuestionIndex++;
-//     showQuestions();
-// }
-startBtn.addEventListener('click', showQuestions);
-//checkbox.addEventListener('click', checkAnswer);
 
-// put into function that will show results page and hide questions
-//resultElement.style.display = "block";
-//prompts.style.display = "none"; 
+startBtn.addEventListener('click', () => {
+    showQuestions();
+});
+
+const showHome = () => {
+    location.reload();
+}
+const showAboutUs = () => {
+    intro.style.display = "none";
+    prompts.style.display = "none";
+    aboutUs.style.display = "block";
+    lastResults.style.display = "none";
+
+}
+const showLatResults = () => {
+    intro.style.display = "none";
+    prompts.style.display = "none";
+    lastResults.style.display = "block";
+    aboutUs.style.display = "none";
+}
+
+
+const homeBtn = document.getElementById('home-nav');
+const lastResultsBtn = document.getElementById('lR-nav');
+var lastResults = document.querySelector("#prev-results");
+const aboutBtn = document.getElementById('about-nav');
+var aboutUs = document.querySelector("#aboutus");
+
+
+
+homeBtn.addEventListener('click', () => {
+    showHome();
+})
+aboutBtn.addEventListener('click', () => {
+
+    showAboutUs();
+})
+lastResultsBtn.addEventListener('click', () => {
+    showLatResults();
+})
+
+const questionCont = document.getElementById('question-container');
+const subBtn = document.getElementById('submit');
+
+
+// questionCont.children[i].children[j].children[0].checked
+
+subBtn.addEventListener('click', () => {
+    var column=5;
+    var options1=8;
+    for( var i=0; i<column;i++){
+        for (var j=0; j<options1;i++) {
+            if (column==0 || column==4) {
+                if (questionCont.children[i].children[j].children[0].checked == true){
+                    console.log(questionCont.children[i].children[j].children[0].id);
+                    // console.log(questionCont.children[1]);
+                    // console.log(questionCont.children[1].children[0]);
+                    // console.log(questionCont.children[1].children[0].children[0].id);
+
+                }else{
+                    console.log('nope');
+                }
+            }else{
+                console.log('no checkboxes')
+                return;
+            }
+
+
+            
+        }
+
+    }
+})
+
+
+// if(checkbox.checked == true){
+
+// }

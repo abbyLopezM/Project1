@@ -26,11 +26,11 @@
     <h1 class="title">Discover a New Song</h1>
 
     <nav>
-        <ul>
+        <ul class="menu">
             <!-- not yet linked to anything -->
-            <li><a href="">Home</a></li>
-            <li><a href="">Last Results</a></li>
-            <li><a href="">About</a></li>
+            <li><a href="#intro-page"  id="home-nav">Home</a></li>
+            <li><a href="#prev-results" id="lR-nav">Last Results</a></li>
+            <li><a href="#aboutus" id="about-nav">About</a></li>
           </ul>
     </nav> 
     <div class="introcontainer" id="intro-page">
@@ -45,16 +45,19 @@
 
     <div class="row prompts" id="question-container">
     </div>
-    <button>submit</button>
+    <button id="submit">submit</button>
     <!-- previous results on a different page -->
-    <div class="lastresults" id="prev-results"></div>    
-    <div class="resultspage" id="results-container">
-        <!-- results go here -->
-        <h2>Here are your results!</h2>
-        <button>Back</button>
-        <!-- Add photos from API if it's included? -->
-        <h5 class="resultsdisplay" id="displayed-results"> (results go here) </h5>
-    </div>
+
+    <div  class= "Previous" id="prev-results">Previous
+        <div class="resultspage" id="results-container">
+            <!-- results go here -->
+            <h2>Here are your results!</h2>
+            <button>Back</button>
+            <!-- Add photos from API if it's included? -->
+            <h5 class="resultsdisplay" id="displayed-results"> (results go here) </h5>
+        </div>
+    </div>    
+    <div  class='aboutUs' id="aboutus">ABOUT US</div>
 
     <script src="./assets/js/script.js"></script>
 

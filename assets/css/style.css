@@ -43,7 +43,7 @@ nav {
 }
 nav > ul  {
     float: left;
-    margin-left: -250px;
+    /* margin-left: -250px; moves elements out of the window */
 }
 
 .introcontainer {
@@ -127,6 +127,13 @@ nav > ul  {
     padding: 5px;
     margin: 15px 1px 1px 1px;
     justify-content: space-around;
+}
+.Previous{
+    display: none;
+}
+.aboutUs{
+    display: none;
+
 }
 #submit {
     float: right;
