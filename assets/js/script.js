@@ -32,6 +32,13 @@ var startBtn = document.querySelector("#startBtn");
 var prompts = document.querySelector("#question-container");
 var intro = document.querySelector("#intro-page");
 var questionsEL= document.querySelector('#question-container');
+const frameCont = document.createElement('div');
+var iframe1 = document.createElement("iframe");
+var iframe2 = document.createElement("iframe");
+var iframe3 = document.createElement("iframe");
+var iframe4 = document.createElement("iframe");
+var iframe5 = document.createElement("iframe");
+
 
 var currentQuestionIndex = 0;
 // begins to show the questions
@@ -112,8 +119,6 @@ function showQuestions() {
                 checkbox.style.display="block";
                 label.style.display="block";
                 //checkbox.addEventListener('click', checkAnswer);
-
-
             }
             console.log('outofloop');
             currentQuestionIndex++;
@@ -165,6 +170,11 @@ const questionCont = document.getElementById('question-container');
 const subBtn = document.getElementById('submit');
 
 subBtn.addEventListener('click', () => {
+    iframe1.remove();
+    iframe2.remove();
+    iframe3.remove();
+    iframe4.remove();
+    iframe5.remove();
     keyWordQuery=[];
     for (let k = 0; k < questions.length - 3; k++){
         for (let i = 0; i < questions[k].options.length; i++){
@@ -214,21 +224,17 @@ fetch(url)
   .then(response => response.json())
   .then(data => {
     console.log(data);
-    const frameCont = document.createElement('div');
     frameCont.id = 'frame-cont';
-    var iframe1 = document.createElement("iframe")
     iframe1.src = `https://www.youtube.com/embed/${data.items[0].id.videoId}`;
-    var iframe2 = document.createElement("iframe")
-    iframe2.src = `https://www.youtube.com/embed/${data.items[1].id.videoId}`; var iframe3 = document.createElement("iframe")
-    iframe3.src = `https://www.youtube.com/embed/${data.items[2].id.videoId}`; var iframe4 = document.createElement("iframe")
-    iframe4.src = `https://www.youtube.com/embed/${data.items[3].id.videoId}`; var iframe5 = document.createElement("iframe")
+    iframe2.src = `https://www.youtube.com/embed/${data.items[1].id.videoId}`; 
+    iframe3.src = `https://www.youtube.com/embed/${data.items[2].id.videoId}`; 
+    iframe4.src = `https://www.youtube.com/embed/${data.items[3].id.videoId}`; 
     iframe5.src = `https://www.youtube.com/embed/${data.items[4].id.videoId}`;
     frameCont.append(iframe1);
     frameCont.append(iframe2);
     frameCont.append(iframe3);
     frameCont.append(iframe4);
     frameCont.append(iframe5);
-
     questionCont.append(frameCont);
 });
 })
