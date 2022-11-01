@@ -34,9 +34,6 @@ nav {
     -webkit-box-shadow: 1px 1px 38px -1px rgba(255,255,255,0.37);
     -moz-box-shadow: 1px 1px 38px -1px rgba(255,255,255,0.37);
 }
-nav > ul  {
-    float: left;
-}
 
 .introcontainer {
     text-align: center;
@@ -94,20 +91,13 @@ nav > ul  {
     
 }
 .resultspage > h2 {
-    /* background: rgb(64,15,124);
-    background: linear-gradient(0deg, rgba(64,15,124,1) 0%, rgba(91,24,172,1) 93%); */
     -webkit-box-shadow: 1px 1px 38px -1px rgba(255,255,255,0.37);
     -moz-box-shadow: 1px 1px 38px -1px rgba(255,255,255,0.37);
     border-top: 1px white solid;
     border-bottom: 1px white solid;
-    border-radius: 10px;
     margin: 20px -60px 80px -60px;
     padding: 50px 20px 50px 20px;
     font-size: 36px;
-}
-
-.resultspage > .resultsdisplay {
-
 }
 .column{
     width: 19%;
