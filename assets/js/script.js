@@ -13,8 +13,8 @@ var questions = [
     },
     {
         //use license
-        question: 'Do you prefer a channel licensed by youtube or Creative Common?',
-        options: ['youtube','creativeCommon','All'],
+        question: 'Licensing',
+        options: ['Show all results','Creative Commons','standard YouTube license'],
         type: 'license',
     },
     { //use videoDuration
@@ -32,18 +32,19 @@ var startBtn = document.querySelector("#startBtn");
 var prompts = document.querySelector("#question-container");
 var intro = document.querySelector("#intro-page");
 var questionsEL= document.querySelector('#question-container');
-
-
+const subBtn = document.getElementById('submit');
 var currentQuestionIndex = 0;
 // begins to show the questions
 //query words to add
 let keyWordQuery=[];
+var keyWordString = "";
 //query words to remove
 let removeQuery = [];
 //youtube or creativeCommon
-let licenseQuery = [];
+let licenseQuery = "";
 //how long of a video do you want to watch?
-let durationQuery = [];
+let durationQuery = "";
+var keys = ["AIzaSyB_8l7wRzx1mfcSr-y36PAVZjxL3GImcT4","AIzaSyCYz-_fTaOtm5x6nIcipiwgbGOtKtcWo2o","AIzaSyCWdUZqMxBDLrvaXERbCcn-yB2mFvbN3X0"];
 
 function showQuestions() {
     // use "block" instead of "inline"! Inline will mess up margin structure. 
@@ -70,7 +71,6 @@ function showQuestions() {
         questionsEL.append(divQ);
         if(index>0 && index<4){
             for(var i = 0; i<currentQuestion.options.length; i++){
-
                 // console.log('we got in');
                 var label = document.createElement('label');
                 label.htmlFor = currentQuestion.options[i];
@@ -88,14 +88,12 @@ function showQuestions() {
                 divQ.appendChild(label);
                 radio.style.display="block";
                 label.style.display="block";
-
             }
             // console.log('outofloop');
             currentQuestionIndex++;
         }
         else{
             for(var i = 0; i<currentQuestion.options.length; i++){
-
                 // console.log('in loop');
                 var label = document.createElement('label');
                 label.htmlFor = currentQuestion.options[i];
@@ -113,8 +111,6 @@ function showQuestions() {
                 checkbox.style.display="block";
                 label.style.display="block";
                 //checkbox.addEventListener('click', checkAnswer);
-
-
             }
             // console.log('outofloop');
             currentQuestionIndex++;
@@ -124,7 +120,6 @@ function showQuestions() {
 startBtn.addEventListener('click', () => {
     showQuestions();
 });
-
 const showHome = () => {
     location.reload();
 }
@@ -134,7 +129,6 @@ const showAboutUs = () => {
     aboutUs.style.display = "block";
     lastResults.style.display = "none";
     resultPage.style.display ="none";
-
 }
 const showLatResults = () => {
     intro.style.display = "none";
@@ -145,8 +139,6 @@ const showLatResults = () => {
 
     //local storage will go here since it is the prev results
 }
-
-
 const homeBtn = document.getElementById('home-nav');
 const lastResultsBtn = document.getElementById('lR-nav');
 var lastResults = document.querySelector("#prev-results");
@@ -160,35 +152,17 @@ var iframe2 = document.createElement("iframe");
 var iframe3 = document.createElement("iframe");
 var iframe4 = document.createElement("iframe");
 var iframe5 = document.createElement("iframe");
-
-
-
-homeBtn.addEventListener('click', () => {
-    showHome();
-})
-aboutBtn.addEventListener('click', () => {
-
-    showAboutUs();
-})
-lastResultsBtn.addEventListener('click', () => {
-    showLatResults();
-})
-
-const questionCont = document.getElementById('question-container');
-const subBtn = document.getElementById('submit');
-
-subBtn.addEventListener('click', () => {
+// Display settings for Results page
+const setResultsPage = () => {
     intro.style.display = "none";
     prompts.style.display = "none";
     lastResults.style.display = "none";
     aboutUs.style.display = "none";
     subBtn.style.display = "none";
     resultPage.style.display = "block";
-    iframe1.remove();
-    iframe2.remove();
-    iframe3.remove();
-    iframe4.remove();
-    iframe5.remove();
+}
+// Checks which keywords have been selected
+const checkKeyWord = () => {
     keyWordQuery=[];
     for (let k = 0; k < questions.length - 3; k++){
         for (let i = 0; i < questions[k].options.length; i++){
@@ -199,6 +173,9 @@ subBtn.addEventListener('click', () => {
             }
         }
     }
+}
+// Checks which license have been selected
+const checkLicense = () => {
     licenseQuery = [];
     for (let i = 0; i < questions[2].options.length; i++){
         if (document.getElementById(questions[2].options[i]).checked == true){
@@ -207,23 +184,26 @@ subBtn.addEventListener('click', () => {
             // console.log(licenseQuery);
         }
     }
+}
+// Checks which duration have been selected
+const checkDuration = () => {
     durationQuery = [];
     for (let i = 0; i < questions[3].options.length; i++){
         if (document.getElementById(questions[3].options[i]).checked == true){
             if ((document.getElementById(questions[3].options[i]).id == "Short")){
-                durationQuery.push("+short");
+                durationQuery = "short";
             }else if ((document.getElementById(questions[3].options[i]).id == "Medium")){
-                durationQuery.push("+medium");
+                durationQuery = "medium";
             }else if ((document.getElementById(questions[3].options[i]).id == "Long")){
-                durationQuery.push("+long");
+                durationQuery = "long";
             }else{
-                durationQuery.push("any");
+                durationQuery = "any";
             }
-            // console.log(questions[3].options[i]);
-            // durationQuery.push("+" + questions[3].options[i]);
-            // console.log(durationQuery);
         }
     }
+}
+// Checks which keywords to exclude have been selected
+const checkRemove = () => {
     removeQuery = [];
     for (let i = 0; i < questions[4].options.length; i++){
         if (document.getElementById(questions[4].options[i]).checked == true){
@@ -232,43 +212,55 @@ subBtn.addEventListener('click', () => {
             // console.log(removeQuery);
         }
     }
-
-    
-    // const setKeyWords = () => {
-    //     console.log(keyWordQuery[0]);
-    // }
-
-    // setKeyWords();
-
-    console.log("JSON.REPLACE ALL of Query: " + JSON.stringify(keyWordQuery).replaceAll(',', '').replaceAll('[', '').replaceAll(']', '').replaceAll('"', ''));
-    var keyWordString = JSON.stringify(keyWordQuery).replaceAll(',', '').replaceAll('[', '').replaceAll(']', '').replaceAll('"', '');
-    console.log("Check: " + keyWordString);
-    // console.log("Query: " + keyWordQuery);
-    // console.log("String: " + keyWordString);
-    // console.log("Query JSON.REPLACEALL: " + JSON.stringify(keyWordQuery).replaceAll(',', ''));
-
-    const ytSearch = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q='music${keyWordString}'&type=video&videoDuration=medium&videoSyndicated=true&order=viewCount&key=AIzaSyB_8l7wRzx1mfcSr-y36PAVZjxL3GImcT4`;
-
-//    fetch(ytSearch)
-//   .then(response => response.json())
-//   .then(data => {
-//     console.log(data);
-//     frameCont.id = 'frame-cont';
-//     iframe1.src = `https://www.youtube.com/embed/${data.items[0].id.videoId}`;
-//     iframe2.src = `https://www.youtube.com/embed/${data.items[1].id.videoId}`; 
-//     iframe3.src = `https://www.youtube.com/embed/${data.items[2].id.videoId}`; 
-//     iframe4.src = `https://www.youtube.com/embed/${data.items[3].id.videoId}`; 
-//     iframe5.src = `https://www.youtube.com/embed/${data.items[4].id.videoId}`;
-//     iframe1.classList="Videos";
-//     iframe2.classList="Videos";
-//     iframe3.classList="Videos";
-//     iframe4.classList="Videos";
-//     iframe5.classList="Videos";
-//     frameCont.append(iframe1);
-//     frameCont.append(iframe2);
-//     frameCont.append(iframe3);
-//     frameCont.append(iframe4);
-//     frameCont.append(iframe5);
-//     resultPage.append(frameCont);
-// });
+}
+const setKeyWord = () => {
+    keyWordString = JSON.stringify(keyWordQuery)
+    .replaceAll(',', '')
+    .replaceAll('[', '')
+    .replaceAll(']', '')
+    .replaceAll('"', '');
+}
+const fetchSearch = () => {
+    const ytSearch = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q='music${keyWordString}'&type=video&videoDuration=${durationQuery}&videoSyndicated=true&key=${keys[0]}`;
+    alert(ytSearch);
+   fetch(ytSearch)
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    frameCont.id = 'frame-cont';
+    iframe1.src = `https://www.youtube.com/embed/${data.items[0].id.videoId}`;
+    iframe2.src = `https://www.youtube.com/embed/${data.items[1].id.videoId}`; 
+    iframe3.src = `https://www.youtube.com/embed/${data.items[2].id.videoId}`; 
+    iframe4.src = `https://www.youtube.com/embed/${data.items[3].id.videoId}`; 
+    iframe5.src = `https://www.youtube.com/embed/${data.items[4].id.videoId}`;
+    iframe1.classList="Videos";
+    iframe2.classList="Videos";
+    iframe3.classList="Videos";
+    iframe4.classList="Videos";
+    iframe5.classList="Videos";
+    frameCont.append(iframe1);
+    frameCont.append(iframe2);
+    frameCont.append(iframe3);
+    frameCont.append(iframe4);
+    frameCont.append(iframe5);
+    resultPage.append(frameCont);
+});
+}
+homeBtn.addEventListener('click', () => {
+    showHome();
+})
+aboutBtn.addEventListener('click', () => {
+    showAboutUs();
+})
+lastResultsBtn.addEventListener('click', () => {
+    showLatResults();
+})
+subBtn.addEventListener('click', () => {
+    setResultsPage();
+    checkKeyWord();
+    checkLicense();
+    checkDuration();
+    checkRemove();
+    setKeyWord();
+    fetchSearch();
 })
