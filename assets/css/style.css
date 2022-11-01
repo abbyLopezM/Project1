@@ -135,9 +135,25 @@ nav > ul  {
     display: none;
 
 }
+/* Kaylee can you edit the videos class we want the videos
+to be displayed on per line with a download button accross from it/next to it
+video   download
+*/
+.Videos{
+    display: inline-block;
+}
 #submit {
     float: right;
     display: none;
+    padding: 20px;
+    margin: 15px;
+    border-radius: 15px;
+    border: 0px;
+    background-color: #3175ff;
+    color: white;
+}
+#download {
+    float: right;
     padding: 20px;
     margin: 15px;
     border-radius: 15px;

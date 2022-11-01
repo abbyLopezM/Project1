@@ -33,6 +33,7 @@ var prompts = document.querySelector("#question-container");
 var intro = document.querySelector("#intro-page");
 var questionsEL= document.querySelector('#question-container');
 
+
 var currentQuestionIndex = 0;
 // begins to show the questions
 //query words to add
@@ -132,6 +133,7 @@ const showAboutUs = () => {
     prompts.style.display = "none";
     aboutUs.style.display = "block";
     lastResults.style.display = "none";
+    resultPage.style.display ="none";
 
 }
 const showLatResults = () => {
@@ -139,6 +141,9 @@ const showLatResults = () => {
     prompts.style.display = "none";
     lastResults.style.display = "block";
     aboutUs.style.display = "none";
+    resultPage.style.display ="none";
+
+    //local storage will go here since it is the prev results
 }
 
 
@@ -147,6 +152,14 @@ const lastResultsBtn = document.getElementById('lR-nav');
 var lastResults = document.querySelector("#prev-results");
 const aboutBtn = document.getElementById('about-nav');
 var aboutUs = document.querySelector("#aboutus");
+var resultPage = document.querySelector("#results-container");
+
+const frameCont = document.createElement('div');
+var iframe1 = document.createElement("iframe");
+var iframe2 = document.createElement("iframe");
+var iframe3 = document.createElement("iframe");
+var iframe4 = document.createElement("iframe");
+var iframe5 = document.createElement("iframe");
 
 
 
@@ -165,6 +178,17 @@ const questionCont = document.getElementById('question-container');
 const subBtn = document.getElementById('submit');
 
 subBtn.addEventListener('click', () => {
+    intro.style.display = "none";
+    prompts.style.display = "none";
+    lastResults.style.display = "none";
+    aboutUs.style.display = "none";
+    subBtn.style.display = "none";
+    resultPage.style.display = "block";
+    iframe1.remove();
+    iframe2.remove();
+    iframe3.remove();
+    iframe4.remove();
+    iframe5.remove();
     keyWordQuery=[];
     for (let k = 0; k < questions.length - 3; k++){
         for (let i = 0; i < questions[k].options.length; i++){
@@ -210,25 +234,26 @@ subBtn.addEventListener('click', () => {
     }
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q='music+country+acoustic'&type=video&videoDuration=medium&videoSyndicated=true&order=viewCount&key=AIzaSyB_8l7wRzx1mfcSr-y36PAVZjxL3GImcT4`;
 
-fetch(url)
+    fetch(url)
   .then(response => response.json())
   .then(data => {
     console.log(data);
-    const frameCont = document.createElement('div');
     frameCont.id = 'frame-cont';
-    var iframe1 = document.createElement("iframe")
     iframe1.src = `https://www.youtube.com/embed/${data.items[0].id.videoId}`;
-    var iframe2 = document.createElement("iframe")
-    iframe2.src = `https://www.youtube.com/embed/${data.items[1].id.videoId}`; var iframe3 = document.createElement("iframe")
-    iframe3.src = `https://www.youtube.com/embed/${data.items[2].id.videoId}`; var iframe4 = document.createElement("iframe")
-    iframe4.src = `https://www.youtube.com/embed/${data.items[3].id.videoId}`; var iframe5 = document.createElement("iframe")
+    iframe2.src = `https://www.youtube.com/embed/${data.items[1].id.videoId}`; 
+    iframe3.src = `https://www.youtube.com/embed/${data.items[2].id.videoId}`; 
+    iframe4.src = `https://www.youtube.com/embed/${data.items[3].id.videoId}`; 
     iframe5.src = `https://www.youtube.com/embed/${data.items[4].id.videoId}`;
+    iframe1.classList="Videos";
+    iframe2.classList="Videos";
+    iframe3.classList="Videos";
+    iframe4.classList="Videos";
+    iframe5.classList="Videos";
     frameCont.append(iframe1);
     frameCont.append(iframe2);
     frameCont.append(iframe3);
     frameCont.append(iframe4);
     frameCont.append(iframe5);
-
-    questionCont.append(frameCont);
+    resultPage.append(frameCont);
 });
 })
