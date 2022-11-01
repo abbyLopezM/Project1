@@ -14,17 +14,17 @@ var questions = [
     {
         //use license
         question: 'Do you prefer a channel licensed by youtube or Creative Common?',
-        options: ['Youtube','Creative Common','No Preference '],
+        options: ['youtube','creativeCommon','All'],
         type: 'license',
     },
     { //use videoDuration
         question: 'How long of a video would you like to watch?',
-        options: ['Less than 4min','4min - 20min','Greater than 20 Min', 'Any'],
+        options: ['Short','Medium','Long', 'Any'],
         type: 'duration',
     },
     {// use removeQuery
         question: 'Would you like to exclude anything else?',
-        options: ['covers','blank','blank2'],
+        options: ['covers'],
         type: 'queryremove',
     }
 ]
@@ -169,8 +169,8 @@ subBtn.addEventListener('click', () => {
     for (let k = 0; k < questions.length - 3; k++){
         for (let i = 0; i < questions[k].options.length; i++){
             if (document.getElementById(questions[k].options[i]).checked == true){
-                console.log(questions[k].options[i]);
-                keyWordQuery.push(questions[k].options[i]);
+                console.log("+" + questions[k].options[i]);
+                keyWordQuery.push("+" + questions[k].options[i]);
                 console.log(keyWordQuery);
             }
         }
@@ -178,25 +178,57 @@ subBtn.addEventListener('click', () => {
     licenseQuery = [];
     for (let i = 0; i < questions[2].options.length; i++){
         if (document.getElementById(questions[2].options[i]).checked == true){
-            console.log(questions[2].options[i]);
-            licenseQuery.push(questions[2].options[i]);
+            console.log("+" + questions[2].options[i]);
+            licenseQuery.push("+" + questions[2].options[i]);
             console.log(licenseQuery);
         }
     }
     durationQuery = [];
     for (let i = 0; i < questions[3].options.length; i++){
         if (document.getElementById(questions[3].options[i]).checked == true){
-            console.log(questions[3].options[i]);
-            durationQuery.push(questions[3].options[i]);
+            if ((document.getElementById(questions[3].options[i]).id == "Short")){
+                durationQuery.push("+short");
+            }else if ((document.getElementById(questions[3].options[i]).id == "Medium")){
+                durationQuery.push("+medium");
+            }else if ((document.getElementById(questions[3].options[i]).id == "Long")){
+                durationQuery.push("+long");
+            }else{
+                durationQuery.push("any");
+            }
+            // console.log(questions[3].options[i]);
+            // durationQuery.push("+" + questions[3].options[i]);
             console.log(durationQuery);
         }
     }
     removeQuery = [];
     for (let i = 0; i < questions[4].options.length; i++){
         if (document.getElementById(questions[4].options[i]).checked == true){
-            console.log(questions[4].options[i]);
-            removeQuery.push(questions[4].options[i]);
+            console.log("-" + questions[4].options[i]);
+            removeQuery.push("-" + questions[4].options[i]);
             console.log(removeQuery);
         }
     }
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q='music+country+acoustic'&type=video&videoDuration=medium&videoSyndicated=true&order=viewCount&key=AIzaSyB_8l7wRzx1mfcSr-y36PAVZjxL3GImcT4`;
+
+fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    const frameCont = document.createElement('div');
+    frameCont.id = 'frame-cont';
+    var iframe1 = document.createElement("iframe")
+    iframe1.src = `https://www.youtube.com/embed/${data.items[0].id.videoId}`;
+    var iframe2 = document.createElement("iframe")
+    iframe2.src = `https://www.youtube.com/embed/${data.items[1].id.videoId}`; var iframe3 = document.createElement("iframe")
+    iframe3.src = `https://www.youtube.com/embed/${data.items[2].id.videoId}`; var iframe4 = document.createElement("iframe")
+    iframe4.src = `https://www.youtube.com/embed/${data.items[3].id.videoId}`; var iframe5 = document.createElement("iframe")
+    iframe5.src = `https://www.youtube.com/embed/${data.items[4].id.videoId}`;
+    frameCont.append(iframe1);
+    frameCont.append(iframe2);
+    frameCont.append(iframe3);
+    frameCont.append(iframe4);
+    frameCont.append(iframe5);
+
+    questionCont.append(frameCont);
+});
 })
