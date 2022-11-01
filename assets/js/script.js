@@ -7,8 +7,8 @@ var questions = [
     },
     {
         //use keyWordQuery
-        question: 'Do you prefer instrumental or vocals?',
-        options: ['Instrumental','Vocals','No Preference'],
+        question: 'Do you prefer instrumental or vocal?',
+        options: ['Instrumental','Vocal','No Preference'],
         type: 'queryadd',
     },
     {
@@ -24,7 +24,7 @@ var questions = [
     },
     {// use removeQuery
         question: 'Would you like to exclude anything else?',
-        options: ['covers'],
+        options: ['Covers', 'Mixes'],
         type: 'queryremove',
     }
 ]
@@ -44,7 +44,12 @@ let removeQuery = [];
 let licenseQuery = "";
 //how long of a video do you want to watch?
 let durationQuery = "";
-var keys = ["AIzaSyB_8l7wRzx1mfcSr-y36PAVZjxL3GImcT4","AIzaSyCYz-_fTaOtm5x6nIcipiwgbGOtKtcWo2o","AIzaSyCWdUZqMxBDLrvaXERbCcn-yB2mFvbN3X0"];
+var keys = ["AIzaSyB_8l7wRzx1mfcSr-y36PAVZjxL3GImcT4","AIzaSyCYz-_fTaOtm5x6nIcipiwgbGOtKtcWo2o","AIzaSyCWdUZqMxBDLrvaXERbCcn-yB2mFvbN3X0","AIzaSyD241EisKvIVhziOK3DjXpezuHct3CZC2s"];
+var resultInfo = [];
+var searchId = [];
+var ytVideoId = [];
+var ytLikeCount = [];
+var ytViewCount = [];
 
 function showQuestions() {
     // use "block" instead of "inline"! Inline will mess up margin structure. 
@@ -213,6 +218,7 @@ const checkRemove = () => {
         }
     }
 }
+// removes unwanted chars from keyword search string
 const setKeyWord = () => {
     keyWordString = JSON.stringify(keyWordQuery)
     .replaceAll(',', '')
@@ -220,8 +226,16 @@ const setKeyWord = () => {
     .replaceAll(']', '')
     .replaceAll('"', '');
 }
+// Sorts results by views-per-like !asc
+const sortVPL = () => {
+    resultInfo.sort((a, b) => {
+        a.vpl - b.vpl;
+      });  
+}
+// dynamic search url & fetch for the search !!!!q='music -"cardi b" -"ed sheeran"'
 const fetchSearch = () => {
     const ytSearch = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q='music${keyWordString}'&type=video&videoDuration=${durationQuery}&videoSyndicated=true&key=${keys[0]}`;
+    
     alert(ytSearch);
    fetch(ytSearch)
   .then(response => response.json())
@@ -233,6 +247,38 @@ const fetchSearch = () => {
     iframe3.src = `https://www.youtube.com/embed/${data.items[2].id.videoId}`; 
     iframe4.src = `https://www.youtube.com/embed/${data.items[3].id.videoId}`; 
     iframe5.src = `https://www.youtube.com/embed/${data.items[4].id.videoId}`;
+    searchId.push(data.items[0].id.videoId);
+    searchId.push(data.items[1].id.videoId);
+    searchId.push(data.items[2].id.videoId);
+    searchId.push(data.items[3].id.videoId);
+    searchId.push(data.items[4].id.videoId);
+    var ytVidStats = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${searchId}&key=${keys[0]}`;
+    alert(ytVidStats);
+    fetch(ytVidStats)
+    .then(response => response.json())
+    .then(vidData => {
+        console.log(vidData);
+        for (let i = 0; i < vidData.items.length; i++){
+            console.log("Video #" + [i] + "ID: " + vidData.items[i].id);
+            console.log("Video #" + [i] + "Like Count: " + vidData.items[i].statistics.likeCount);
+            console.log("Video #" + [i] + "View Count: " + vidData.items[i].statistics.viewCount);
+            var getVPL = Math.round(
+                parseInt(vidData.items[i].statistics.viewCount) 
+                / 
+                parseInt(vidData.items[i].statistics.likeCount));
+            var currentResultInfo = [{
+                ytVideoId: vidData.items[i].id,
+                ytLikeCount: parseInt(vidData.items[i].statistics.likeCount),
+                ytViewCount: parseInt(vidData.items[i].statistics.viewCount),
+                vpl: getVPL
+            }];
+            resultInfo.push(currentResultInfo);
+            resultInfo.sort((a, b) => {
+                a.vpl - b.vpl;
+              }); 
+              console.log(resultInfo);
+        }  
+    })
     iframe1.classList="Videos";
     iframe2.classList="Videos";
     iframe3.classList="Videos";
