@@ -2,7 +2,7 @@ var questions = [
     {
         //use keyWordQuery
     question: 'Select all genres you want to search.',
-    options: ['Rock','Jazz','Electro','Techno','Metal','Country', 'Pop', 'Blues'],
+    options: ['Rock','Jazz','Electro','Techno','Metal','Country','Blues'],
     type: 'queryadd',
     },
     {
@@ -66,12 +66,12 @@ function showQuestions() {
         var divQ = document.createElement('div');
         divQ.className='column';
         divQ.textContent = currentQuestion.question;
-        console.log(divQ);
+        // console.log(divQ);
         questionsEL.append(divQ);
         if(index>0 && index<4){
             for(var i = 0; i<currentQuestion.options.length; i++){
 
-                console.log('we got in');
+                // console.log('we got in');
                 var label = document.createElement('label');
                 label.htmlFor = currentQuestion.options[i];
                 var radio = document.createElement('input');
@@ -90,13 +90,13 @@ function showQuestions() {
                 label.style.display="block";
 
             }
-            console.log('outofloop');
+            // console.log('outofloop');
             currentQuestionIndex++;
         }
         else{
             for(var i = 0; i<currentQuestion.options.length; i++){
 
-                console.log('in loop');
+                // console.log('in loop');
                 var label = document.createElement('label');
                 label.htmlFor = currentQuestion.options[i];
                 var checkbox = document.createElement('input');
@@ -116,7 +116,7 @@ function showQuestions() {
 
 
             }
-            console.log('outofloop');
+            // console.log('outofloop');
             currentQuestionIndex++;
         }
     }
@@ -193,18 +193,18 @@ subBtn.addEventListener('click', () => {
     for (let k = 0; k < questions.length - 3; k++){
         for (let i = 0; i < questions[k].options.length; i++){
             if (document.getElementById(questions[k].options[i]).checked == true){
-                console.log("+" + questions[k].options[i]);
+                // console.log("+" + questions[k].options[i]);
                 keyWordQuery.push("+" + questions[k].options[i]);
-                console.log(keyWordQuery);
+                // console.log(keyWordQuery);
             }
         }
     }
     licenseQuery = [];
     for (let i = 0; i < questions[2].options.length; i++){
         if (document.getElementById(questions[2].options[i]).checked == true){
-            console.log("+" + questions[2].options[i]);
+            // console.log("+" + questions[2].options[i]);
             licenseQuery.push("+" + questions[2].options[i]);
-            console.log(licenseQuery);
+            // console.log(licenseQuery);
         }
     }
     durationQuery = [];
@@ -221,39 +221,54 @@ subBtn.addEventListener('click', () => {
             }
             // console.log(questions[3].options[i]);
             // durationQuery.push("+" + questions[3].options[i]);
-            console.log(durationQuery);
+            // console.log(durationQuery);
         }
     }
     removeQuery = [];
     for (let i = 0; i < questions[4].options.length; i++){
         if (document.getElementById(questions[4].options[i]).checked == true){
-            console.log("-" + questions[4].options[i]);
+            // console.log("-" + questions[4].options[i]);
             removeQuery.push("-" + questions[4].options[i]);
-            console.log(removeQuery);
+            // console.log(removeQuery);
         }
     }
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q='music+country+acoustic'&type=video&videoDuration=medium&videoSyndicated=true&order=viewCount&key=AIzaSyB_8l7wRzx1mfcSr-y36PAVZjxL3GImcT4`;
 
-    fetch(url)
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-    frameCont.id = 'frame-cont';
-    iframe1.src = `https://www.youtube.com/embed/${data.items[0].id.videoId}`;
-    iframe2.src = `https://www.youtube.com/embed/${data.items[1].id.videoId}`; 
-    iframe3.src = `https://www.youtube.com/embed/${data.items[2].id.videoId}`; 
-    iframe4.src = `https://www.youtube.com/embed/${data.items[3].id.videoId}`; 
-    iframe5.src = `https://www.youtube.com/embed/${data.items[4].id.videoId}`;
-    iframe1.classList="Videos";
-    iframe2.classList="Videos";
-    iframe3.classList="Videos";
-    iframe4.classList="Videos";
-    iframe5.classList="Videos";
-    frameCont.append(iframe1);
-    frameCont.append(iframe2);
-    frameCont.append(iframe3);
-    frameCont.append(iframe4);
-    frameCont.append(iframe5);
-    resultPage.append(frameCont);
-});
+    
+    // const setKeyWords = () => {
+    //     console.log(keyWordQuery[0]);
+    // }
+
+    // setKeyWords();
+
+    console.log("JSON.REPLACE ALL of Query: " + JSON.stringify(keyWordQuery).replaceAll(',', '').replaceAll('[', '').replaceAll(']', '').replaceAll('"', ''));
+    var keyWordString = JSON.stringify(keyWordQuery).replaceAll(',', '').replaceAll('[', '').replaceAll(']', '').replaceAll('"', '');
+    console.log("Check: " + keyWordString);
+    // console.log("Query: " + keyWordQuery);
+    // console.log("String: " + keyWordString);
+    // console.log("Query JSON.REPLACEALL: " + JSON.stringify(keyWordQuery).replaceAll(',', ''));
+
+    const ytSearch = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q='music${keyWordString}'&type=video&videoDuration=medium&videoSyndicated=true&order=viewCount&key=AIzaSyB_8l7wRzx1mfcSr-y36PAVZjxL3GImcT4`;
+
+//    fetch(ytSearch)
+//   .then(response => response.json())
+//   .then(data => {
+//     console.log(data);
+//     frameCont.id = 'frame-cont';
+//     iframe1.src = `https://www.youtube.com/embed/${data.items[0].id.videoId}`;
+//     iframe2.src = `https://www.youtube.com/embed/${data.items[1].id.videoId}`; 
+//     iframe3.src = `https://www.youtube.com/embed/${data.items[2].id.videoId}`; 
+//     iframe4.src = `https://www.youtube.com/embed/${data.items[3].id.videoId}`; 
+//     iframe5.src = `https://www.youtube.com/embed/${data.items[4].id.videoId}`;
+//     iframe1.classList="Videos";
+//     iframe2.classList="Videos";
+//     iframe3.classList="Videos";
+//     iframe4.classList="Videos";
+//     iframe5.classList="Videos";
+//     frameCont.append(iframe1);
+//     frameCont.append(iframe2);
+//     frameCont.append(iframe3);
+//     frameCont.append(iframe4);
+//     frameCont.append(iframe5);
+//     resultPage.append(frameCont);
+// });
 })
