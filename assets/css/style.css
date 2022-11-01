@@ -1,11 +1,9 @@
 :root {
-    --darkblue: #090d1a;
+    --darkblue: #2259c6;
     --nav: #7118de;
     --blue: #3175ff;
     --border: white;
-
-    /* change tan color */
-    --results: #fb9d67;
+    --results: #560db0;
 }
 
 body {
@@ -17,37 +15,30 @@ body {
     padding: 40px;
     margin: -10px -10px 0px -50px;
     box-shadow: 0px 6px 10px 1px rgba(0,0,0,0.25);
-    text-shadow: 0px 0px 6px rgba(252, 252, 252, 1);
-/* make text shadow bigger */
+    text-shadow: 0px 0px 10px #CECECE;
 }
 
 .pic {
-    width: 300px;
-    height: 280px;
+    width: 20%;
+    height: 100%;
     object-fit: contain;
-    margin-top: -70px;
+    margin-top: 35px;
 }
-
-/* .title::before {
-    content: "🎵";
+#screenadj {
+    display: none;
 }
-.title::after {
-    content: "🎵"; */
-/* } */
 
 nav {
-    background-color: var(--nav);
-    box-shadow: 1px 1px 38px -1px rgba(255,255,255,0.37);
+    background: rgb(64,15,124);
+    background: linear-gradient(0deg, rgba(64,15,124,1) 0%, rgba(113,24,222,1) 93%);
     -webkit-box-shadow: 1px 1px 38px -1px rgba(255,255,255,0.37);
     -moz-box-shadow: 1px 1px 38px -1px rgba(255,255,255,0.37);
 }
 nav > ul  {
     float: left;
-    margin-left: -250px;
 }
 
 .introcontainer {
-    /* background-color: var(--darkblue); */
     text-align: center;
     padding: 50px;
     margin: 50px 80px 50px 80px;
@@ -55,7 +46,6 @@ nav > ul  {
     border: 1px solid;
     border-color: var(--border);
     box-shadow: 0px 6px 10px 1px rgba(0,0,0,0.25);
-    /* text-shadow: 1px 0px 6px rgba(206,206,206,0.84); */
 }
 .introcontainer > h4 {
     padding: 60px;
@@ -74,13 +64,11 @@ nav > ul  {
     -moz-box-shadow: 1px 1px 38px -1px rgba(255,255,255,0.37);
 }
 .introcontainer > button:hover {
-    /* background-color: lightgreen; */
     box-shadow: inset 0px 6px 10px 1px rgba(0,0,0,0.25);
+    background-color: var(--darkblue);
+    transition: .5s;
 }
 
-.lastresults {
-    
-}
 
 .prompts {
     padding: 50px 10px 50px 10px;
@@ -97,25 +85,23 @@ nav > ul  {
 -webkit-box-shadow: 0px 15px 17px -6px rgba(255,255,255,0.25);
 -moz-box-shadow: 0px 15px 17px -6px rgba(255,255,255,0.25);
 }
-.prompts > .response {
-
-}
 
 .resultspage {
     text-align: center;
     padding: 50px;
     margin-bottom: 200px;
     display: none;
+    
 }
 .resultspage > h2 {
-    background-color: var(--results);
-    border-bottom: 1px var(--border) solid;
-    box-shadow: 0px 6px 4px 1px rgba(0,0,0,0.09);
-    -webkit-box-shadow: -1px 6px 4px 1px rgba(0,0,0,0.09);
-    -moz-box-shadow: -1px 6px 4px 1px rgba(0,0,0,0.09);
-    padding: 50px;
-    margin: 20px -60px 40px -50px;
-
+    background: rgb(64,15,124);
+    background: linear-gradient(0deg, rgba(64,15,124,1) 0%, rgba(91,24,172,1) 93%);
+    -webkit-box-shadow: 1px 1px 38px -1px rgba(255,255,255,0.37);
+    -moz-box-shadow: 1px 1px 38px -1px rgba(255,255,255,0.37);
+    margin: 20px 0px 80px 0px;
+    border-radius: 10px;
+    padding: 50px 20px 50px 20px;
+    font-size: 36px;
 }
 
 .resultspage > .resultsdisplay {
@@ -135,14 +121,7 @@ nav > ul  {
     display: none;
 
 }
-/* Kaylee can you edit the videos class we want the videos
-to be displayed on per line with a download button accross from it/next to it
-video   download
-*/
-.Videos{
-    display: flex;
-    flex-direction: row;
-}
+
 #submit {
     float: right;
     display: none;
@@ -150,42 +129,70 @@ video   download
     margin: 15px;
     border-radius: 15px;
     border: 0px;
-    background-color: #3175ff;
-    color: white;
-}
-.download {
-    padding: 20px;
-    margin: 15px;
-    border-radius: 15px;
-    border: 0px;
-    background-color: #3175ff;
+    background-color: var(--blue);
     color: white;
 }
 #submit:hover {
-    background-color: grey;
+    background-color: var(--darkblue);
+    box-shadow: inset 0px 6px 10px 1px rgba(0,0,0,0.25);
+    transition: .3s;
 }
+
+.Videos{
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.material-icons {
+    padding: 20px;
+    margin: 20px 15px 30px 30px;
+    border: 3px solid white;
+    border-radius: 50%;
+}
+.material-icons:hover {
+    background-color: var(--blue);
+    transition: .5s;
+}
+
+
 
 /* mobile compatibility */
 @media screen and (max-width: 837px) {
-.pic {
-    display: none;
-}}
+    .title {
+        font-size: 56px;
+        margin-top: -40px;
+    }
+    .pic {
+        display: none;
+        
+    }
+    #screenadj {
+        display: block;
+        width: 50%;
+        object-fit: contain;    
+        margin-left: auto;  
+        margin-right: auto; 
+        margin-top: 15px;
+    }}
 
 @media screen and (max-width: 600px) {
-.pic {
-    display: none;
-}
-nav > ul {
-    margin: 0;
-}
-.introcontainer > h4 {
-    padding: 5px;
-    font-size: 24px;
-}
-.column {
-    width: 100%;
-    border-bottom: 1px white solid;
-}
-#submit {
-    width: 95%;
-}}
+    .title {
+        font-size: 40px;
+    }
+    .pic {
+        display: none;
+    }
+    .introcontainer {
+        padding: 20px;
+    }
+    .introcontainer > h4 {
+        font-size: 24px;
+    }
+    .column {
+        width: 100%;
+        border-bottom: 1px white solid;
+    }
+
+    #submit {
+        width: 95%;
+    }}

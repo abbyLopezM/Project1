@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Discover a New Song</title>
-
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
@@ -20,6 +19,7 @@
 
 <!-- We will use display: none; to hide sections. on js: Element.style.display: inline (?) to display next section. -->
 <body>
+    <img src="./assets/pics/soundwave.png" alt="soundwave" id="screenadj">
     <img src="./assets/pics/soundwave.png" alt="soundwave" class="pic left">
     <img src="./assets/pics/soundwave.png" alt="soundwave" class="pic right">
 
@@ -45,33 +45,33 @@
 
     <div class="row prompts" id="question-container">
     </div>
-    <button id="submit">submit</button>
+    <button id="submit">Submit</button>
     <!-- previous results on a different page -->
     <div class="resultspage" id="results-container">
         <!-- results go here -->
         <h2>Here are your results!</h2>
         <section class="Videos">
             <iframe src="" class="" id="iframe1"></iframe>
-            <button class="download" id="download1">Download</button>
+            <!-- Materialize.css download icons -->
+            <i class="medium material-icons" id="download1">file_download</i>
         </section>
         <section class="Videos">
             <iframe src="" class="" id="iframe2"></iframe>
-            <button class="download" id="download2">Download</button>
+            <i class="medium material-icons" id="download2">file_download</i>
         </section>        
         <section class="Videos">
             <iframe src="" class="" id="iframe3"></iframe>
-            <button class="download" id="download3">Download</button>
+            <i class="medium material-icons" id="download3">file_download</i>
         </section>
         <section class="Videos">
             <iframe src="" class="" id="iframe4"></iframe>
-            <button class="download" id="download4">Download</button>
+            <i class="medium material-icons" id="download4">file_download</i>
         </section>        
         <section class="Videos">
             <iframe src="" class="" id="iframe5"></iframe>
-            <button class="download" id="download5">Download</button>
+            <i class="medium material-icons" id="download5">file_download</i>
         </section>
         <!-- Add photos from API if it's included? -->
-        <!--<h5 class="resultsdisplay" id="displayed-results"> </h5> -->
     </div>
     <div  class= "Previous" id="prev-results">Previous
     </div>    
