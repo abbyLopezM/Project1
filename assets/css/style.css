@@ -140,7 +140,8 @@ to be displayed on per line with a download button accross from it/next to it
 video   download
 */
 .Videos{
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
 }
 #submit {
     float: right;
@@ -152,8 +153,7 @@ video   download
     background-color: #3175ff;
     color: white;
 }
-#download {
-    float: right;
+.download {
     padding: 20px;
     margin: 15px;
     border-radius: 15px;

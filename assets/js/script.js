@@ -152,11 +152,11 @@ var aboutUs = document.querySelector("#aboutus");
 var resultPage = document.querySelector("#results-container");
 
 const frameCont = document.createElement('div');
-var iframe1 = document.createElement("iframe");
-var iframe2 = document.createElement("iframe");
-var iframe3 = document.createElement("iframe");
-var iframe4 = document.createElement("iframe");
-var iframe5 = document.createElement("iframe");
+var iframe1 = document.getElementById("iframe1");
+var iframe2 = document.getElementById("iframe2");
+var iframe3 = document.getElementById("iframe3");
+var iframe4 = document.getElementById("iframe4");
+var iframe5 = document.getElementById("iframe5");
 // Display settings for Results page
 const setResultsPage = () => {
     intro.style.display = "none";
@@ -234,14 +234,13 @@ const sortVPL = () => {
 }
 // dynamic search url & fetch for the search !!!!q='music -"cardi b" -"ed sheeran"'
 const fetchSearch = () => {
-    const ytSearch = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q='music${keyWordString}'&type=video&videoDuration=${durationQuery}&videoSyndicated=true&key=${keys[0]}`;
+    const ytSearch = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q='music${keyWordString}'&type=video&videoDuration=${durationQuery}&videoSyndicated=true&key=${keys[2]}`;
     
     alert(ytSearch);
    fetch(ytSearch)
   .then(response => response.json())
   .then(data => {
-    console.log(data);
-    frameCont.id = 'frame-cont';
+    // console.log(data);
     iframe1.src = `https://www.youtube.com/embed/${data.items[0].id.videoId}`;
     iframe2.src = `https://www.youtube.com/embed/${data.items[1].id.videoId}`; 
     iframe3.src = `https://www.youtube.com/embed/${data.items[2].id.videoId}`; 
@@ -252,16 +251,16 @@ const fetchSearch = () => {
     searchId.push(data.items[2].id.videoId);
     searchId.push(data.items[3].id.videoId);
     searchId.push(data.items[4].id.videoId);
-    var ytVidStats = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${searchId}&key=${keys[0]}`;
+    var ytVidStats = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${searchId}&key=${keys[2]}`;
     alert(ytVidStats);
     fetch(ytVidStats)
     .then(response => response.json())
     .then(vidData => {
-        console.log(vidData);
+        // console.log(vidData);
         for (let i = 0; i < vidData.items.length; i++){
-            console.log("Video #" + [i] + "ID: " + vidData.items[i].id);
-            console.log("Video #" + [i] + "Like Count: " + vidData.items[i].statistics.likeCount);
-            console.log("Video #" + [i] + "View Count: " + vidData.items[i].statistics.viewCount);
+            // console.log("Video #" + [i] + "ID: " + vidData.items[i].id);
+            // console.log("Video #" + [i] + "Like Count: " + vidData.items[i].statistics.likeCount);
+            // console.log("Video #" + [i] + "View Count: " + vidData.items[i].statistics.viewCount);
             var getVPL = Math.round(
                 parseInt(vidData.items[i].statistics.viewCount) 
                 / 
@@ -272,25 +271,15 @@ const fetchSearch = () => {
                 ytViewCount: parseInt(vidData.items[i].statistics.viewCount),
                 vpl: getVPL
             }];
+
             resultInfo.push(currentResultInfo);
             resultInfo.sort((a, b) => {
                 a.vpl - b.vpl;
               }); 
-              console.log(resultInfo);
+            //   console.log(resultInfo);
         }  
-    })
-    iframe1.classList="Videos";
-    iframe2.classList="Videos";
-    iframe3.classList="Videos";
-    iframe4.classList="Videos";
-    iframe5.classList="Videos";
-    frameCont.append(iframe1);
-    frameCont.append(iframe2);
-    frameCont.append(iframe3);
-    frameCont.append(iframe4);
-    frameCont.append(iframe5);
-    resultPage.append(frameCont);
-});
+        })
+    });
 }
 homeBtn.addEventListener('click', () => {
     showHome();
