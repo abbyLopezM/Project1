@@ -34,6 +34,22 @@ var intro = document.querySelector("#intro-page");
 var questionsEL= document.querySelector('#question-container');
 const subBtn = document.getElementById('submit');
 var currentQuestionIndex = 0;
+
+const homeBtn = document.getElementById('home-nav');
+const lastResultsBtn = document.getElementById('lR-nav');
+var lastResults = document.querySelector("#prev-results");
+const aboutBtn = document.getElementById('about-nav');
+var aboutUs = document.querySelector("#aboutus");
+var resultPage = document.querySelector("#results-container");
+var lastResultsSpan=document.querySelector("#lastResults");
+var lastResultList=document.querySelector("#resultsList");
+
+const frameCont = document.createElement('div');
+var iframe1 = document.getElementById("iframe1");
+var iframe2 = document.getElementById("iframe2");
+var iframe3 = document.getElementById("iframe3");
+var iframe4 = document.getElementById("iframe4");
+var iframe5 = document.getElementById("iframe5");
 // begins to show the questions
 //query words to add
 let keyWordQuery=[];
@@ -42,10 +58,16 @@ var keyWordString = "";
 var lastWordQueryString = "";
 //query words to remove
 let removeQuery = [];
+let lastremoveQuery = [];
+
 //youtube or creativeCommon
 let licenseQuery = "";
+let lastlicenseQuery = "";
+
 //how long of a video do you want to watch?
 let durationQuery = "";
+let lastdurationQuery = "";
+
 var keys = ["AIzaSyB_8l7wRzx1mfcSr-y36PAVZjxL3GImcT4","AIzaSyCYz-_fTaOtm5x6nIcipiwgbGOtKtcWo2o","AIzaSyCWdUZqMxBDLrvaXERbCcn-yB2mFvbN3X0","AIzaSyD241EisKvIVhziOK3DjXpezuHct3CZC2s"];
 var resultInfo = [];
 var searchId = [];
@@ -61,12 +83,12 @@ function showQuestions() {
     subBtn.style.display = 'block';
 
 
-    if(currentQuestionIndex>= questions.length){
-        var h1Element = document.createElement('h1');
-        h1Element.textContent = "All Done! \n\n Here is your new music recommendation";
-        questionsEL.append(h1Element);
-        return;
-    }
+    // if(currentQuestionIndex>= questions.length){
+    //     var h1Element = document.createElement('h1');
+    //     h1Element.textContent = "All Done! \n\n Here is your new music recommendation";
+    //     questionsEL.append(h1Element);
+    //     return;
+    // }
     
    for (let index = 0; index < questions.length; index++) {
  
@@ -138,17 +160,56 @@ const showAboutUs = () => {
     resultPage.style.display ="none";
 }
 const showLatResults = () => {
+
     intro.style.display = "none";
     prompts.style.display = "none";
     lastResults.style.display = "block";
     aboutUs.style.display = "none";
     resultPage.style.display ="none";
+
     var prevQuery = localStorage.getItem('lastQuery');
-    lastResultsSpan.textContent=prevQuery;
-    var vid1=document.createElement('iframe');
-    lastResultsSpan.appendChild(vid1);
     var firstVideo =localStorage.getItem('lrVid1');
+    var scndVideo =localStorage.getItem('lrVid2');
+    var thirdVideo =localStorage.getItem('lrVid3');
+    var fourthVideo =localStorage.getItem('lrVid4');
+    var fifthVideo =localStorage.getItem('lrVid5');
+    var duration =localStorage.getItem('lastDuration');
+    var license =localStorage.getItem('lastLicense');
+    var removeQ =localStorage.getItem('removeQ');
+
+
+    var vid1=document.createElement('iframe');
+    var vid2=document.createElement('iframe');
+    var vid3=document.createElement('iframe');
+    var vid4=document.createElement('iframe');
+    var vid5=document.createElement('iframe');
+    var division=document.createElement('div');
+    var listGenre=document.createElement('li');
+    var listDuration=document.createElement('li');
+    var listLicense=document.createElement('li');
+    var listRemove=document.createElement('li');
+
+    lastResultList.appendChild(listGenre);
+    listGenre.textContent=("Genre and Video Type: "+ prevQuery);
+    lastResultList.appendChild(listDuration);
+    listDuration.textContent=("Duration of Video: "+ duration);
+    lastResultList.appendChild(listLicense);
+    listLicense.textContent=("License type: "+license);
+    lastResultList.appendChild(listRemove);
+    listRemove.textContent=("Remove: "+removeQ);
+    division.classList.add("Videos");
+    lastResultsSpan.appendChild(division);
+    division.appendChild(vid1);
     vid1.src=firstVideo;
+    division.appendChild(vid2);
+    vid2.src=scndVideo;
+    division.appendChild(vid3);
+    vid3.src=thirdVideo;
+    division.appendChild(vid4);
+    vid4.src=fourthVideo;
+    division.appendChild(vid5);
+    vid5.src=fifthVideo;
+
 
 
     //local storage will go here since it is the prev results
@@ -161,20 +222,6 @@ const setResultsPage = () => {
     subBtn.style.display = "none";
     resultPage.style.display = "block";
 }
-const homeBtn = document.getElementById('home-nav');
-const lastResultsBtn = document.getElementById('lR-nav');
-var lastResults = document.querySelector("#prev-results");
-const aboutBtn = document.getElementById('about-nav');
-var aboutUs = document.querySelector("#aboutus");
-var resultPage = document.querySelector("#results-container");
-var lastResultsSpan=document.querySelector("#lastResults");
-
-const frameCont = document.createElement('div');
-var iframe1 = document.getElementById("iframe1");
-var iframe2 = document.getElementById("iframe2");
-var iframe3 = document.getElementById("iframe3");
-var iframe4 = document.getElementById("iframe4");
-var iframe5 = document.getElementById("iframe5");
 // Display settings for Results page
 
 // Checks which keywords have been selected
@@ -186,7 +233,7 @@ const checkKeyWord = () => {
             if (document.getElementById(questions[k].options[i]).checked == true){
                 // console.log("+" + questions[k].options[i]);
                 keyWordQuery.push("+" + questions[k].options[i]);
-                lastWordQuery.push(questions[k].options[i]+", ");
+                lastWordQuery.push(questions[k].options[i]);
                 // console.log(keyWordQuery);
             }
         }
@@ -195,10 +242,16 @@ const checkKeyWord = () => {
 // Checks which license have been selected
 const checkLicense = () => {
     licenseQuery = [];
+    lastlicenseQuery = [];
+
     for (let i = 0; i < questions[2].options.length; i++){
         if (document.getElementById(questions[2].options[i]).checked == true){
             // console.log("+" + questions[2].options[i]);
             licenseQuery.push("+" + questions[2].options[i]);
+            lastlicenseQuery.push(questions[2].options[i]);
+            localStorage.setItem("lastLicense",lastlicenseQuery);
+
+
             // console.log(licenseQuery);
         }
     }
@@ -206,6 +259,7 @@ const checkLicense = () => {
 // Checks which duration have been selected
 const checkDuration = () => {
     durationQuery = [];
+
     for (let i = 0; i < questions[3].options.length; i++){
         if (document.getElementById(questions[3].options[i]).checked == true){
             if ((document.getElementById(questions[3].options[i]).id == "Short")){
@@ -214,19 +268,26 @@ const checkDuration = () => {
                 durationQuery = "medium";
             }else if ((document.getElementById(questions[3].options[i]).id == "Long")){
                 durationQuery = "long";
+                lastdurationQuery = "long";
             }else{
                 durationQuery = "any";
             }
         }
+        localStorage.setItem("lastDuration",durationQuery);
+
     }
 }
 // Checks which keywords to exclude have been selected
 const checkRemove = () => {
     removeQuery = [];
+    lastremoveQuery = [];
+
     for (let i = 0; i < questions[4].options.length; i++){
         if (document.getElementById(questions[4].options[i]).checked == true){
             // console.log("-" + questions[4].options[i]);
             removeQuery.push("-" + questions[4].options[i]);
+            lastremoveQuery.push(questions[4].options[i]);
+            localStorage.setItem("removeQ",lastremoveQuery);
             // console.log(removeQuery);
         }
     }
@@ -242,7 +303,7 @@ const setKeyWord = () => {
 }
 const setlastWordQuery = () => {
     lastWordQueryString = JSON.stringify(lastWordQuery)
-//    .replaceAll(',', '')
+    .replaceAll(',', ', ')
     .replaceAll('[', '')
     .replaceAll(']', '')
     .replaceAll('"', '');
@@ -259,7 +320,7 @@ const sortVPL = () => {
 const fetchSearch = () => {
     const ytSearch = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q='music${keyWordString}'&type=video&videoDuration=${durationQuery}&videoSyndicated=true&key=${keys[2]}`;
     
-    alert(ytSearch);
+    //alert(ytSearch);
    fetch(ytSearch)
   .then(response => response.json())
   .then(data => {
@@ -267,16 +328,20 @@ const fetchSearch = () => {
     iframe1.src = `https://www.youtube.com/embed/${data.items[0].id.videoId}`;
     localStorage.setItem("lrVid1",iframe1.src);
     iframe2.src = `https://www.youtube.com/embed/${data.items[1].id.videoId}`; 
+    localStorage.setItem("lrVid2",iframe2.src);
     iframe3.src = `https://www.youtube.com/embed/${data.items[2].id.videoId}`; 
+    localStorage.setItem("lrVid3",iframe3.src);
     iframe4.src = `https://www.youtube.com/embed/${data.items[3].id.videoId}`; 
+    localStorage.setItem("lrVid4",iframe4.src);
     iframe5.src = `https://www.youtube.com/embed/${data.items[4].id.videoId}`;
+    localStorage.setItem("lrVid5",iframe5.src);
     searchId.push(data.items[0].id.videoId);
     searchId.push(data.items[1].id.videoId);
     searchId.push(data.items[2].id.videoId);
     searchId.push(data.items[3].id.videoId);
     searchId.push(data.items[4].id.videoId);
     var ytVidStats = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${searchId}&key=${keys[2]}`;
-    alert(ytVidStats);
+   // alert(ytVidStats);
     fetch(ytVidStats)
     .then(response => response.json())
     .then(vidData => {
@@ -325,9 +390,4 @@ subBtn.addEventListener('click', () => {
     setlastWordQuery();
     fetchSearch();
 })
-// function renderLastRegistered(){
-//     var keyWordResults= localstorage.getItem("keyWordString");
-//     lastResultsSpan.textContent = keyWordResults;
-// }
-// localStorage.setItem("keyword", keyWordString);
-// renderLastRegistered();
+
