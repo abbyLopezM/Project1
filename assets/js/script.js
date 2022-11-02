@@ -2,7 +2,7 @@ var questions = [
     {
         //use keyWordQuery
     question: 'Select all genres you want to search.',
-    options: ['Rock','Jazz','Electro','Techno','Metal','Country','Blues'],
+    options: ['Rock','Jazz','Electronic','Hip+hop','Metal','Country','Folk'],
     type: 'queryadd',
     },
     {
@@ -24,7 +24,7 @@ var questions = [
     },
     {// use removeQuery
         question: 'Would you like to exclude anything else?',
-        options: ['Covers', 'Mixes'],
+        options: ['Covers'],
         type: 'queryremove',
     }
 ]
@@ -33,8 +33,6 @@ var prompts = document.querySelector("#question-container");
 var intro = document.querySelector("#intro-page");
 var questionsEL= document.querySelector('#question-container');
 const subBtn = document.getElementById('submit');
-var currentQuestionIndex = 0;
-
 const homeBtn = document.getElementById('home-nav');
 const lastResultsBtn = document.getElementById('lR-nav');
 var lastResults = document.querySelector("#prev-results");
@@ -43,14 +41,14 @@ var aboutUs = document.querySelector("#aboutus");
 var resultPage = document.querySelector("#results-container");
 var lastResultsSpan=document.querySelector("#lastResults");
 var lastResultList=document.querySelector("#resultsList");
-
 const frameCont = document.createElement('div');
 var iframe1 = document.getElementById("iframe1");
 var iframe2 = document.getElementById("iframe2");
 var iframe3 = document.getElementById("iframe3");
 var iframe4 = document.getElementById("iframe4");
 var iframe5 = document.getElementById("iframe5");
-// begins to show the questions
+
+var currentQuestionIndex = 0;
 //query words to add
 let keyWordQuery=[];
 let lastWordQuery=[];
@@ -59,22 +57,31 @@ var lastWordQueryString = "";
 //query words to remove
 let removeQuery = [];
 let lastremoveQuery = [];
-
 //youtube or creativeCommon
 let licenseQuery = "";
 let lastlicenseQuery = "";
-
 //how long of a video do you want to watch?
 let durationQuery = "";
 let lastdurationQuery = "";
 
 var keys = ["AIzaSyB_8l7wRzx1mfcSr-y36PAVZjxL3GImcT4","AIzaSyCYz-_fTaOtm5x6nIcipiwgbGOtKtcWo2o","AIzaSyCWdUZqMxBDLrvaXERbCcn-yB2mFvbN3X0","AIzaSyD241EisKvIVhziOK3DjXpezuHct3CZC2s"];
-var resultInfo = [];
-var searchId = [];
-var ytVideoId = [];
-var ytLikeCount = [];
-var ytViewCount = [];
+const giphyKey = 'jSzPrGaq3wjPRqIsPW9WXmVUSKpUIwt3';
 
+// Giphy API
+const homeGIF = document.getElementById('home-gif');
+const getGiphy = () => {
+    const keyWordLength = questions[0].options.length;
+    const randomGifWord = questions[0].options[Math.floor(Math.random() * keyWordLength)];
+    const randomKeyLength = Math.floor(Math.random() * keyWordLength);
+    let giphySearch = `https://api.giphy.com/v1/gifs/search?api_key=${giphyKey}&q=${randomGifWord}+music&limit=${keyWordLength}&offset=0&rating=r&lang=en`;
+    fetch(giphySearch)
+    .then(response => response.json())
+    .then(gifData =>{
+        console.log(gifData);
+        homeGIF.src = gifData.data[randomKeyLength].images.fixed_height.url;
+    })
+}
+getGiphy();
 function showQuestions() {
     // use "block" instead of "inline"! Inline will mess up margin structure. 
     prompts.style.display = "block";
@@ -151,6 +158,7 @@ startBtn.addEventListener('click', () => {
 });
 const showHome = () => {
     location.reload();
+    getGiphy();
 }
 const showAboutUs = () => {
     intro.style.display = "none";
@@ -214,6 +222,7 @@ const showLatResults = () => {
 
     //local storage will go here since it is the prev results
 }
+// Display settings for Results page
 const setResultsPage = () => {
     intro.style.display = "none";
     prompts.style.display = "none";
@@ -222,8 +231,6 @@ const setResultsPage = () => {
     subBtn.style.display = "none";
     resultPage.style.display = "block";
 }
-// Display settings for Results page
-
 // Checks which keywords have been selected
 const checkKeyWord = () => {
     keyWordQuery=[];
@@ -231,10 +238,12 @@ const checkKeyWord = () => {
     for (let k = 0; k < questions.length - 3; k++){
         for (let i = 0; i < questions[k].options.length; i++){
             if (document.getElementById(questions[k].options[i]).checked == true){
-                // console.log("+" + questions[k].options[i]);
-                keyWordQuery.push("+" + questions[k].options[i]);
-                lastWordQuery.push(questions[k].options[i]);
-                // console.log(keyWordQuery);
+                if (k == 1 || i == 3){
+                    console.log("no pref out")
+                }else{
+                    keyWordQuery.push("+" + questions[k].options[i]);
+                    lastWordQuery.push(questions[k].options[i]);
+                }   
             }
         }
     }
@@ -279,16 +288,16 @@ const checkDuration = () => {
 }
 // Checks which keywords to exclude have been selected
 const checkRemove = () => {
-    removeQuery = [];
+    removeQuery = ['-"What+your"','-"interview"','-"epic"','-"extreme"','-"top"','-"audition"','-"mojo"','-"TikTok"','-"?"'];
     lastremoveQuery = [];
 
     for (let i = 0; i < questions[4].options.length; i++){
         if (document.getElementById(questions[4].options[i]).checked == true){
-            // console.log("-" + questions[4].options[i]);
-            removeQuery.push("-" + questions[4].options[i]);
+            removeQuery.push(`-"${questions[4].options[i]}"`);
             lastremoveQuery.push(questions[4].options[i]);
             localStorage.setItem("removeQ",lastremoveQuery);
-            // console.log(removeQuery);
+            console.log(removeQuery);
+            console.log(JSON.stringify(removeQuery));
         }
     }
 }
@@ -309,67 +318,67 @@ const setlastWordQuery = () => {
     .replaceAll('"', '');
     localStorage.setItem("lastQuery",lastWordQueryString);
 }
-
-// Sorts results by views-per-like !asc
-const sortVPL = () => {
-    resultInfo.sort((a, b) => {
-        a.vpl - b.vpl;
-      });  
-}
-// dynamic search url & fetch for the search !!!!q='music -"cardi b" -"ed sheeran"'
+// YouTube API 
 const fetchSearch = () => {
-    const ytSearch = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q='music${keyWordString}'&type=video&videoDuration=${durationQuery}&videoSyndicated=true&key=${keys[2]}`;
+    const searchAmnt = 50;
+    const ytSearch = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q='music${keyWordString}&type=video&videoDuration=${durationQuery}&videoSyndicated=true&key=${keys[2]}`;
+
     
-    //alert(ytSearch);
    fetch(ytSearch)
   .then(response => response.json())
   .then(data => {
-    // console.log(data);
-    iframe1.src = `https://www.youtube.com/embed/${data.items[0].id.videoId}`;
-    localStorage.setItem("lrVid1",iframe1.src);
-    iframe2.src = `https://www.youtube.com/embed/${data.items[1].id.videoId}`; 
-    localStorage.setItem("lrVid2",iframe2.src);
-    iframe3.src = `https://www.youtube.com/embed/${data.items[2].id.videoId}`; 
-    localStorage.setItem("lrVid3",iframe3.src);
-    iframe4.src = `https://www.youtube.com/embed/${data.items[3].id.videoId}`; 
-    localStorage.setItem("lrVid4",iframe4.src);
-    iframe5.src = `https://www.youtube.com/embed/${data.items[4].id.videoId}`;
-    localStorage.setItem("lrVid5",iframe5.src);
-    searchId.push(data.items[0].id.videoId);
-    searchId.push(data.items[1].id.videoId);
-    searchId.push(data.items[2].id.videoId);
-    searchId.push(data.items[3].id.videoId);
-    searchId.push(data.items[4].id.videoId);
+    var searchId = [];
+    for (let i = 0; i < searchAmnt; i++){
+        searchId.push(data.items[i].id.videoId);
+    }
     var ytVidStats = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${searchId}&key=${keys[2]}`;
-   // alert(ytVidStats);
     fetch(ytVidStats)
     .then(response => response.json())
     .then(vidData => {
-        // console.log(vidData);
-        for (let i = 0; i < vidData.items.length; i++){
-            // console.log("Video #" + [i] + "ID: " + vidData.items[i].id);
-            // console.log("Video #" + [i] + "Like Count: " + vidData.items[i].statistics.likeCount);
-            // console.log("Video #" + [i] + "View Count: " + vidData.items[i].statistics.viewCount);
-            var getVPL = Math.round(
-                parseInt(vidData.items[i].statistics.viewCount) 
-                / 
-                parseInt(vidData.items[i].statistics.likeCount));
-            var currentResultInfo = [{
-                ytVideoId: vidData.items[i].id,
-                ytLikeCount: parseInt(vidData.items[i].statistics.likeCount),
-                ytViewCount: parseInt(vidData.items[i].statistics.viewCount),
-                vpl: getVPL
-            }];
-
-            resultInfo.push(currentResultInfo);
-            resultInfo.sort((a, b) => {
-                a.vpl - b.vpl;
-              }); 
-            //   console.log(resultInfo);
-        }  
+        let resultInfo = [];
+        let minViews = 999;
+            for (let i = 0; i < vidData.items.length; i++){
+                if (vidData.items[i].statistics.viewCount > minViews){
+                    let getVPL = Math.round(
+                        parseInt(vidData.items[i].statistics.viewCount) 
+                        / 
+                        parseInt(vidData.items[i].statistics.likeCount));
+                    let currentResultInfo = {
+                        ytVideoId: vidData.items[i].id,
+                        ytLikeCount: parseInt(vidData.items[i].statistics.likeCount),
+                        ytViewCount: parseInt(vidData.items[i].statistics.viewCount),
+                        vpl: getVPL
+                    };
+                resultInfo.push(currentResultInfo);
+                }else{
+                    let getVPL = Number.MAX_SAFE_INTEGER;
+                    let currentResultInfo = {
+                        ytVideoId: vidData.items[i].id,
+                        ytLikeCount: parseInt(vidData.items[i].statistics.likeCount),
+                        ytViewCount: parseInt(vidData.items[i].statistics.viewCount),
+                        vpl: getVPL
+                    };
+                resultInfo.push(currentResultInfo);
+                }
+            }
+        //Sorts by vpl asc.
+        resultInfo.sort((a, b) => {
+            return a.vpl - b.vpl;
+          }); 
+        //Gets the top 5 vpl videos    
+        iframe1.src = `https://www.youtube.com/embed/${resultInfo[0].ytVideoId}`;
+        iframe2.src = `https://www.youtube.com/embed/${resultInfo[1].ytVideoId}`; 
+        iframe3.src = `https://www.youtube.com/embed/${resultInfo[2].ytVideoId}`; 
+        iframe4.src = `https://www.youtube.com/embed/${resultInfo[3].ytVideoId}`; 
+        iframe5.src = `https://www.youtube.com/embed/${resultInfo[4].ytVideoId}`;
+        //Save top 5 to localstorage
+        localStorage.setItem("lrVid1",iframe1.src);
+        localStorage.setItem("lrVid2",iframe2.src);
+        localStorage.setItem("lrVid3",iframe3.src);
+        localStorage.setItem("lrVid4",iframe4.src);
+        localStorage.setItem("lrVid5",iframe5.src);
         })
     });
-
 }
 homeBtn.addEventListener('click', () => {
     showHome();
