@@ -25,13 +25,15 @@
 
     <h1 class="title">Discover a New Song</h1>
 
-    <nav>
-        <ul>
-            <!-- not yet linked to anything -->
-            <li><a href="">Home</a></li>
-            <li><a href="">Last Results</a></li>
-            <li><a href="">About</a></li>
-          </ul>
+    <div id="sidebar" class="bar">
+        <a href="javascript:void(0)" id="closebtn" onclick="closeNav()">x</a>
+        <a href="">Home</a>
+        <a href="">Last Results</a>
+        <a href="">About</a>
+    </div>
+
+    <nav id="nvg">
+            <button id="openbtn" onclick="openNav()">Menu</button>
     </nav> 
     <div class="introcontainer" id="intro-page">
         <!-- introduction page here -->
@@ -63,6 +65,16 @@
         <h5 class="resultsdisplay" id="displayed-results"> (results go here) </h5>
     </div>
 
+    <script>
+        function openNav() {
+            document.getElementById("sidebar").style.width = "250px";
+            document.getElementById("nvg").style.marginLeft = "250px";
+        }
+        function closeNav() {
+            document.getElementById("sidebar").style.width = "0px";
+            document.getElementById("nvg").style.marginLeft = "0px";
+        }
+    </script>
     <script src="./assets/js/script.js"></script>
 
     <!--JavaScript at end of body for optimized loading-->
