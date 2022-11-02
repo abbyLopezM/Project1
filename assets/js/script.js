@@ -37,7 +37,9 @@ var currentQuestionIndex = 0;
 // begins to show the questions
 //query words to add
 let keyWordQuery=[];
+let lastWordQuery=[];
 var keyWordString = "";
+var lastWordQueryString = "";
 //query words to remove
 let removeQuery = [];
 //youtube or creativeCommon
@@ -141,23 +143,16 @@ const showLatResults = () => {
     lastResults.style.display = "block";
     aboutUs.style.display = "none";
     resultPage.style.display ="none";
+    var prevQuery = localStorage.getItem('lastQuery');
+    lastResultsSpan.textContent=prevQuery;
+    var vid1=document.createElement('iframe');
+    lastResultsSpan.appendChild(vid1);
+    var firstVideo =localStorage.getItem('lrVid1');
+    vid1.src=firstVideo;
+
 
     //local storage will go here since it is the prev results
 }
-const homeBtn = document.getElementById('home-nav');
-const lastResultsBtn = document.getElementById('lR-nav');
-var lastResults = document.querySelector("#prev-results");
-const aboutBtn = document.getElementById('about-nav');
-var aboutUs = document.querySelector("#aboutus");
-var resultPage = document.querySelector("#results-container");
-
-const frameCont = document.createElement('div');
-var iframe1 = document.getElementById("iframe1");
-var iframe2 = document.getElementById("iframe2");
-var iframe3 = document.getElementById("iframe3");
-var iframe4 = document.getElementById("iframe4");
-var iframe5 = document.getElementById("iframe5");
-// Display settings for Results page
 const setResultsPage = () => {
     intro.style.display = "none";
     prompts.style.display = "none";
@@ -166,14 +161,32 @@ const setResultsPage = () => {
     subBtn.style.display = "none";
     resultPage.style.display = "block";
 }
+const homeBtn = document.getElementById('home-nav');
+const lastResultsBtn = document.getElementById('lR-nav');
+var lastResults = document.querySelector("#prev-results");
+const aboutBtn = document.getElementById('about-nav');
+var aboutUs = document.querySelector("#aboutus");
+var resultPage = document.querySelector("#results-container");
+var lastResultsSpan=document.querySelector("#lastResults");
+
+const frameCont = document.createElement('div');
+var iframe1 = document.getElementById("iframe1");
+var iframe2 = document.getElementById("iframe2");
+var iframe3 = document.getElementById("iframe3");
+var iframe4 = document.getElementById("iframe4");
+var iframe5 = document.getElementById("iframe5");
+// Display settings for Results page
+
 // Checks which keywords have been selected
 const checkKeyWord = () => {
     keyWordQuery=[];
+    lastWordQuery=[];
     for (let k = 0; k < questions.length - 3; k++){
         for (let i = 0; i < questions[k].options.length; i++){
             if (document.getElementById(questions[k].options[i]).checked == true){
                 // console.log("+" + questions[k].options[i]);
                 keyWordQuery.push("+" + questions[k].options[i]);
+                lastWordQuery.push(questions[k].options[i]+", ");
                 // console.log(keyWordQuery);
             }
         }
@@ -225,7 +238,17 @@ const setKeyWord = () => {
     .replaceAll('[', '')
     .replaceAll(']', '')
     .replaceAll('"', '');
+
 }
+const setlastWordQuery = () => {
+    lastWordQueryString = JSON.stringify(lastWordQuery)
+//    .replaceAll(',', '')
+    .replaceAll('[', '')
+    .replaceAll(']', '')
+    .replaceAll('"', '');
+    localStorage.setItem("lastQuery",lastWordQueryString);
+}
+
 // Sorts results by views-per-like !asc
 const sortVPL = () => {
     resultInfo.sort((a, b) => {
@@ -242,6 +265,7 @@ const fetchSearch = () => {
   .then(data => {
     // console.log(data);
     iframe1.src = `https://www.youtube.com/embed/${data.items[0].id.videoId}`;
+    localStorage.setItem("lrVid1",iframe1.src);
     iframe2.src = `https://www.youtube.com/embed/${data.items[1].id.videoId}`; 
     iframe3.src = `https://www.youtube.com/embed/${data.items[2].id.videoId}`; 
     iframe4.src = `https://www.youtube.com/embed/${data.items[3].id.videoId}`; 
@@ -280,6 +304,7 @@ const fetchSearch = () => {
         }  
         })
     });
+
 }
 homeBtn.addEventListener('click', () => {
     showHome();
@@ -297,5 +322,12 @@ subBtn.addEventListener('click', () => {
     checkDuration();
     checkRemove();
     setKeyWord();
+    setlastWordQuery();
     fetchSearch();
 })
+// function renderLastRegistered(){
+//     var keyWordResults= localstorage.getItem("keyWordString");
+//     lastResultsSpan.textContent = keyWordResults;
+// }
+// localStorage.setItem("keyword", keyWordString);
+// renderLastRegistered();
