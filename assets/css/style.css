@@ -111,7 +111,6 @@ nav {
 }
 .aboutUs{
     display: none;
-
 }
 
 #submit {
@@ -124,6 +123,7 @@ nav {
     background-color: var(--blue);
     color: white;
 }
+
 #submit:hover {
     background-color: var(--darkblue);
     box-shadow: inset 0px 6px 10px 1px rgba(0,0,0,0.25);
@@ -136,10 +136,10 @@ nav {
 }
 
 .material-icons {
-    padding: 20px;
-    margin: 20px 15px 30px 30px;
-    border: 3px solid white;
-    border-radius: 50%;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-end;
 }
 .material-icons:hover {
     background-color: var(--blue);
