@@ -9,7 +9,7 @@ var questions = [
         //use keyWordQuery
         question: 'Do you prefer instrumental or vocal?',
         options: ['Instrumental','Vocal','No Preference'],
-        type: 'queryadd'
+        type: 'queryadd2'
     },
     {
         //use license
@@ -228,7 +228,8 @@ const setResultsPage = () => {
 const checkKeyWord = () => {
     keyWordQuery=[];
     lastWordQuery=[];
-    for (let k = 0; k < questions.length - 3; k++){
+    let j = 1;
+    for (let k = 0; k < j; k++){
         for (let i = 0; i < questions[k].options.length; i++){
             if (document.getElementById(questions[k].options[i]).checked == true){
                 if (k == 1 || i == 3){
@@ -239,6 +240,7 @@ const checkKeyWord = () => {
                 }   
             }
         }
+        j--;
     }
 }
 // Checks which license have been selected
@@ -249,9 +251,16 @@ const checkLicense = () => {
     for (let i = 0; i < questions[2].options.length; i++){
         if (document.getElementById(questions[2].options[i]).checked == true){
             // console.log("+" + questions[2].options[i]);
-            licenseQuery.push("+" + questions[2].options[i]);
+            if ((questions[2].options[i]).id == 'Show all results') {
+                licenseQuery.push("any");
+                lastlicenseQuery = licenseQuery;
+                localStorage.setItem("lastLicense",lastlicenseQuery);
+            }else{
+            licenseQuery.push(questions[2].options[i]);
             lastlicenseQuery = licenseQuery;
             localStorage.setItem("lastLicense",lastlicenseQuery);
+            }
+            
 
             // console.log(licenseQuery);
         }
@@ -279,7 +288,7 @@ const checkDuration = () => {
 }
 // Checks which keywords to exclude have been selected
 const checkRemove = () => {
-    removeQuery = ['-"What+your"','-"interview"','-"epic"','-"extreme"','-"top"','-"audition"','-"mojo"','-"TikTok"','-"?"'];
+    removeQuery = [];
     lastremoveQuery = [];
 
     for (let i = 0; i < questions[4].options.length; i++){
@@ -289,6 +298,7 @@ const checkRemove = () => {
             localStorage.setItem("removeQ",lastremoveQuery);
             console.log(removeQuery);
             console.log(JSON.stringify(removeQuery));
+            
         }
     }
 }
@@ -301,7 +311,7 @@ const setKeyWord = () => {
     .replaceAll('"', '');
 }
 const setlastWordQuery = () => {
-    lastWordQueryString = JSON.stringify(lastWordQuery)
+    lastWordQueryString = JSON.stringify(keyWordString)
     .replaceAll(',', ', ')
     .replaceAll('[', '')
     .replaceAll(']', '')
@@ -311,8 +321,8 @@ const setlastWordQuery = () => {
 // YouTube API 
 const fetchSearch = () => {
     const searchAmnt = 50;
-    const ytSearch = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q='music${keyWordString}&type=video&videoDuration=${durationQuery}&videoSyndicated=true&key=${keys[2]}`;
-
+    const ytSearch = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q='music${keyWordString}&type=video&videoDuration=${durationQuery}&videoLicense=any&videoSyndicated=true&key=${keys[2]}`;
+    console.log(ytSearch);
     
    fetch(ytSearch)
   .then(response => response.json())
@@ -326,9 +336,9 @@ const fetchSearch = () => {
     .then(response => response.json())
     .then(vidData => {
         let resultInfo = [];
-        let minViews = 999;
+        // let minViews = 999;
             for (let i = 0; i < vidData.items.length; i++){
-                if (vidData.items[i].statistics.viewCount > minViews){
+                // if (vidData.items[i].statistics.viewCount > minViews){
                     let getVPL = Math.round(
                         parseInt(vidData.items[i].statistics.viewCount) 
                         / 
@@ -340,16 +350,16 @@ const fetchSearch = () => {
                         vpl: getVPL
                     };
                 resultInfo.push(currentResultInfo);
-                }else{
-                    let getVPL = Number.MAX_SAFE_INTEGER;
-                    let currentResultInfo = {
-                        ytVideoId: vidData.items[i].id,
-                        ytLikeCount: parseInt(vidData.items[i].statistics.likeCount),
-                        ytViewCount: parseInt(vidData.items[i].statistics.viewCount),
-                        vpl: getVPL
-                    };
-                resultInfo.push(currentResultInfo);
-                }
+                // }else{
+                //     let getVPL = Number.MAX_SAFE_INTEGER;
+                //     let currentResultInfo = {
+                //         ytVideoId: vidData.items[i].id,
+                //         ytLikeCount: parseInt(vidData.items[i].statistics.likeCount),
+                //         ytViewCount: parseInt(vidData.items[i].statistics.viewCount),
+                //         vpl: getVPL
+                //     };
+                // resultInfo.push(currentResultInfo);
+                // // }
             }
         //Sorts by vpl asc.
         resultInfo.sort((a, b) => {
