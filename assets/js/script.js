@@ -3,29 +3,29 @@ var questions = [
         //use keyWordQuery
     question: 'Select all genres you want to search.',
     options: ['Rock','Jazz','Electronic','Hip+hop','Metal','Country','Folk'],
-    type: 'queryadd',
+    type: 'queryadd'
     },
     {
         //use keyWordQuery
         question: 'Do you prefer instrumental or vocal?',
         options: ['Instrumental','Vocal','No Preference'],
-        type: 'queryadd',
+        type: 'queryadd'
     },
     {
         //use license
         question: 'Licensing',
         options: ['Show all results','Creative Commons','standard YouTube license'],
-        type: 'license',
+        type: 'license'
     },
     { //use videoDuration
         question: 'How long of a video would you like to watch?',
         options: ['Short','Medium','Long', 'Any'],
-        type: 'duration',
+        type: 'duration'
     },
     {// use removeQuery
         question: 'Would you like to exclude anything else?',
         options: ['Covers'],
-        type: 'queryremove',
+        type: 'queryremove'
     }
 ]
 var startBtn = document.querySelector("#startBtn");
@@ -72,13 +72,13 @@ const homeGIF = document.getElementById('home-gif');
 const getGiphy = () => {
     const keyWordLength = questions[0].options.length;
     const randomGifWord = questions[0].options[Math.floor(Math.random() * keyWordLength)];
-    const randomKeyLength = Math.floor(Math.random() * keyWordLength);
-    let giphySearch = `https://api.giphy.com/v1/gifs/search?api_key=${giphyKey}&q=${randomGifWord}+music&limit=${keyWordLength}&offset=0&rating=r&lang=en`;
+    // const randomKeyLength = Math.floor(Math.random() * keyWordLength);
+    let giphySearch = `https://api.giphy.com/v1/gifs/search?api_key=${giphyKey}&q=${randomGifWord}+music&limit=25&offset=0&rating=r&lang=en`;
     fetch(giphySearch)
     .then(response => response.json())
     .then(gifData =>{
         console.log(gifData);
-        homeGIF.src = gifData.data[randomKeyLength].images.fixed_height.url;
+        homeGIF.src = gifData.data[Math.floor(Math.random() * 25)].images.fixed_height.url;
     })
 }
 getGiphy();
@@ -89,14 +89,12 @@ function showQuestions() {
     questionsEL.innerHTML = '';
     subBtn.style.display = 'block';
 
-
     // if(currentQuestionIndex>= questions.length){
     //     var h1Element = document.createElement('h1');
     //     h1Element.textContent = "All Done! \n\n Here is your new music recommendation";
     //     questionsEL.append(h1Element);
     //     return;
     // }
-    
    for (let index = 0; index < questions.length; index++) {
  
         var currentQuestion = questions[currentQuestionIndex];
@@ -185,7 +183,6 @@ const showLatResults = () => {
     var license =localStorage.getItem('lastLicense');
     var removeQ =localStorage.getItem('removeQ');
 
-
     var vid1=document.createElement('iframe');
     var vid2=document.createElement('iframe');
     var vid3=document.createElement('iframe');
@@ -217,10 +214,6 @@ const showLatResults = () => {
     vid4.src=fourthVideo;
     division.appendChild(vid5);
     vid5.src=fifthVideo;
-
-
-
-    //local storage will go here since it is the prev results
 }
 // Display settings for Results page
 const setResultsPage = () => {
@@ -257,9 +250,8 @@ const checkLicense = () => {
         if (document.getElementById(questions[2].options[i]).checked == true){
             // console.log("+" + questions[2].options[i]);
             licenseQuery.push("+" + questions[2].options[i]);
-            lastlicenseQuery.push(questions[2].options[i]);
+            lastlicenseQuery = licenseQuery;
             localStorage.setItem("lastLicense",lastlicenseQuery);
-
 
             // console.log(licenseQuery);
         }
@@ -283,7 +275,6 @@ const checkDuration = () => {
             }
         }
         localStorage.setItem("lastDuration",durationQuery);
-
     }
 }
 // Checks which keywords to exclude have been selected
@@ -294,7 +285,7 @@ const checkRemove = () => {
     for (let i = 0; i < questions[4].options.length; i++){
         if (document.getElementById(questions[4].options[i]).checked == true){
             removeQuery.push(`-"${questions[4].options[i]}"`);
-            lastremoveQuery.push(questions[4].options[i]);
+            lastremoveQuery = removeQuery;
             localStorage.setItem("removeQ",lastremoveQuery);
             console.log(removeQuery);
             console.log(JSON.stringify(removeQuery));
@@ -308,7 +299,6 @@ const setKeyWord = () => {
     .replaceAll('[', '')
     .replaceAll(']', '')
     .replaceAll('"', '');
-
 }
 const setlastWordQuery = () => {
     lastWordQueryString = JSON.stringify(lastWordQuery)
